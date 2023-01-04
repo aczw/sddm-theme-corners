@@ -13,8 +13,8 @@ ComboBox {
 
     contentItem: Text {
         renderType: Text.NativeRendering
-        font.family: "Atkinson Hyperlegible"
-        font.pointSize: 13
+        font.family: config.Font
+        font.pointSize: config.LoginFontSize
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
 
@@ -42,8 +42,8 @@ ComboBox {
         
         contentItem: Text {
             renderType: Text.NativeRendering
-            font.family: "Atkinson Hyperlegible"
-            font.pointSize: 13
+            font.family: config.Font
+            font.pointSize: config.LoginFontSize
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
 

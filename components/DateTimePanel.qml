@@ -10,11 +10,11 @@ Column {
         anchors.right: parent.right
 
         renderType: Text.NativeRendering
-        font.family: "Atkinson Hyperlegible"
-        font.pointSize: 64
+        font.family: config.Font
+        font.pointSize: config.DateFontSize
 
         function updateDate() {
-            text = new Date().toLocaleDateString(Qt.locale(), "dddd, MMMM d")
+            text = new Date().toLocaleDateString(Qt.locale(), config.DateFormat)
         }
     }
 
@@ -24,12 +24,12 @@ Column {
         anchors.right: parent.right
 
         renderType: Text.NativeRendering
-        font.family: "Atkinson Hyperlegible"
-        font.pointSize: 84
+        font.family: config.Font
+        font.pointSize: config.TimeFontSize
         font.bold: true
 
         function updateTime() {
-            text = new Date().toLocaleTimeString(Qt.locale(), Locale.ShortFormat)
+            text = new Date().toLocaleTimeString(Qt.locale(), config.TimeFormat)
         }
     }
 

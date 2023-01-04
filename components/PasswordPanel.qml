@@ -6,15 +6,15 @@ TextField {
 
     height: 50
     width: 300
-    horizontalAlignment: TextInput.AlignHCenter
-
+    
     focus: true
     selectByMouse: true
     echoMode: TextInput.Normal
     
     renderType: Text.NativeRendering
-    font.family: "Atkinson Hyperlegible"
-    font.pointSize: 13
+    font.family: config.Font
+    font.pointSize: config.LoginFontSize
+    horizontalAlignment: TextInput.AlignHCenter
 
     placeholderText: "Enter Password"
 }
