@@ -7,12 +7,14 @@ TextField {
     height: 50
     width: 300
     horizontalAlignment: TextInput.AlignHCenter
-    anchors.horizontalCenter: parent.horizontalCenter
 
     focus: true
     selectByMouse: true
     echoMode: TextInput.Normal
+    
+    renderType: Text.NativeRendering
+    font.family: "Atkinson Hyperlegible"
+    font.pointSize: 13
 
     placeholderText: "Enter Password"
-    renderType: Text.QtRendering
 }

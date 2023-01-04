@@ -23,14 +23,20 @@ Column {
             
         height: 50
         width: parent.width
-
+        
         text: "Login!!"
 
         enabled: user != "" && password != "" ? true : false
 
         contentItem: Text {
-            text: parent.text
+            renderType: Text.NativeRendering
+            font.family: "Atkinson Hyperlegible"
+            font.pointSize: 13
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             color: "white"
+
+            text: "Login!!"
         }
         
         background: Rectangle {

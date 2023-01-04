@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 Column {
-    spacing: -30
+    spacing: 0
     
     Text {
         id: dateLabel
@@ -10,8 +10,8 @@ Column {
         anchors.right: parent.right
 
         renderType: Text.NativeRendering
-        font.family: "Cartograph CF"
-        font.pointSize: 48
+        font.family: "Atkinson Hyperlegible"
+        font.pointSize: 64
 
         function updateDate() {
             text = new Date().toLocaleDateString(Qt.locale(), "dddd, MMMM d")
@@ -24,8 +24,9 @@ Column {
         anchors.right: parent.right
 
         renderType: Text.NativeRendering
-        font.family: "Cartograph CF"
-        font.pointSize: 64
+        font.family: "Atkinson Hyperlegible"
+        font.pointSize: 84
+        font.bold: true
 
         function updateTime() {
             text = new Date().toLocaleTimeString(Qt.locale(), Locale.ShortFormat)

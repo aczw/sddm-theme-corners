@@ -8,41 +8,20 @@ ComboBox {
     model: sessionModel
     currentIndex: model.lastIndex
     textRole: "name"
-    editable: true
-
-    delegate: ItemDelegate {
-        id: sessionEntry
-
-        width: parent.width
-        anchors.horizontalCenter: parent.horizontalCenter
-        
-        contentItem: Text {
-            text: model.name
-        }
-        
-        /*
-        highlighted: parent.highlightedIndex === index
-        background: Rectangle {
-            color: parent.highlightedIndex === index ? "blue" : "white"
-        }
-        */
-    }
 
     indicator.visible: true
-
-    /*
+    
     contentItem: Text {
-        id: displayedItem
-
+        renderType: Text.NativeRendering
+        font.family: "Atkinson Hyperlegible"
+        font.pointSize: 13
+        horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        anchors.left: parent.left
 
         text: "Session: " + parent.currentText
-        font.family: "Cartograph CF"
-        font.pointSize: 12
-        color: "black"
     }
 
+    /*
     background: Rectangle {
         height: 50
         width: displayedItem.implicitWidth
@@ -54,6 +33,30 @@ ComboBox {
         color: "white"
     }
     */
+
+    delegate: ItemDelegate {
+        id: sessionEntry
+        
+        width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        
+        contentItem: Text {
+            renderType: Text.NativeRendering
+            font.family: "Atkinson Hyperlegible"
+            font.pointSize: 13
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+
+            text: model.name
+        }
+        
+        /*
+        highlighted: parent.highlightedIndex === index
+        background: Rectangle {
+            color: parent.highlightedIndex === index ? "blue" : "white"
+        }
+        */
+    }
 
     onActivated: print(currentIndex)
 }
