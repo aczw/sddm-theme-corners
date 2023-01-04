@@ -2,9 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 ComboBox {
-    height: 50
-    width: 300
-
     model: userModel
     currentIndex: model.lastIndex
     textRole: "name"

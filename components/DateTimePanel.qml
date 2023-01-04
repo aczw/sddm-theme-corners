@@ -12,6 +12,9 @@ Column {
         renderType: Text.NativeRendering
         font.family: config.Font
         font.pointSize: config.DateFontSize
+        font.bold: true
+        opacity: 0.8
+        color: "white"
 
         function updateDate() {
             text = new Date().toLocaleDateString(Qt.locale(), config.DateFormat)
@@ -27,6 +30,8 @@ Column {
         font.family: config.Font
         font.pointSize: config.TimeFontSize
         font.bold: true
+        opacity: 0.8
+        color: "white"
 
         function updateTime() {
             text = new Date().toLocaleTimeString(Qt.locale(), config.TimeFormat)

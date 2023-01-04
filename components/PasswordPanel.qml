@@ -2,11 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 TextField {
-    id: passwordField
-
-    height: 50
-    width: 300
-    
     focus: true
     selectByMouse: true
     echoMode: TextInput.Normal
