@@ -109,14 +109,12 @@ Item {
                 }
             ]
 
-            transitions: [
-                Transition {
-                    PropertyAnimation {
-                        properties: "color, opacity"
-                        duration: 150
-                    }
+            transitions: Transition {
+                PropertyAnimation {
+                    properties: "color, opacity"
+                    duration: 150
                 }
-            ]
+            }
 
             onClicked: sddm.login(user, password, session)
         }

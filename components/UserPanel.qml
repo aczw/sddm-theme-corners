@@ -7,6 +7,7 @@ ComboBox {
     textRole: "name"
 
     indicator.visible: false
+    hoverEnabled: true
 
     contentItem: Text {
         renderType: Text.NativeRendering
@@ -17,19 +18,6 @@ ComboBox {
 
         text: parent.currentText
     }
-    
-    /*
-    background: Rectangle {
-        height: 50
-        width: displayedItem.implicitWidth
-        anchors.bottom: parent.top
-        anchors.left: parent.left
-
-        border.width: parent.visualFocus ? 1 : 0
-        border.color: "black"
-        color: "white"
-    }
-    */
 
     delegate: ItemDelegate {
         id: userEntry
@@ -46,13 +34,6 @@ ComboBox {
 
             text: model.name
         }
-
-        /*
-        highlighted: parent.highlightedIndex === index
-        background: Rectangle {
-            color: parent.highlightedIndex === index ? "blue" : "white"
-        }
-        */
     }
     
     onActivated: print(currentText)
