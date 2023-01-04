@@ -17,9 +17,9 @@ Item {
         width: parent.width
         fillMode: Image.PreserveAspectCrop
 
-        source: "backgrounds/69.jpg"
+        source: config.Background
 
-        asynchronous: true
+        asynchronous: false
         cache: true
         mipmap: true
         clip: true
@@ -30,10 +30,10 @@ Item {
 
         anchors {
             fill: parent
-            topMargin: 50
-            rightMargin: 50
-            bottomMargin: 50
-            leftMargin: 50
+            topMargin: config.Padding
+            rightMargin: config.Padding
+            bottomMargin:config.Padding
+            leftMargin: config.Padding
         }
 
         DateTimePanel {
@@ -48,10 +48,7 @@ Item {
         LoginPanel {
             id: loginPanel
 
-            anchors {
-                bottom: parent.bottom
-                left: parent.left
-            }
+            anchors.fill: parent
         }
     }
 }

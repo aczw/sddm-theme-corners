@@ -9,7 +9,7 @@ ComboBox {
     currentIndex: model.lastIndex
     textRole: "name"
 
-    indicator.visible: true
+    indicator.visible: false
     
     contentItem: Text {
         renderType: Text.NativeRendering
