@@ -3,7 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
 Item {
-    property var user: "ash"
+    property var user: userPanel.username
     property var password: passwordField.text
     property var session: sessionPanel.currentIndex
     property var inputHeight: Screen.height * config.LoginScale * 0.25
@@ -113,7 +113,12 @@ Item {
                 }
             }
 
-            onClicked: sddm.login(user, password, session)
+            onClicked: {
+                sddm.login(user, password, session)
+                print("user: " + user)
+                print("password: " + password)
+                print("session: " + session)
+            }
         }
     }
 

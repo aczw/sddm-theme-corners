@@ -1,40 +1,73 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.12
+import QtQml.Models 2.12
 
 Column {
-    property var selectedUserIndex: userList.currentIndex
+    property var username: usernameField.text
 
     spacing: 30
 
-    Image {
-        id: avatar
-        source: "/usr/share/sddm/faces/ash.face.icon"
+    DelegateModel {
+        id: delegateModel
 
-        height: inputWidth / 1.5
-        width: inputWidth / 1.5
-        anchors.horizontalCenter: parent.horizontalCenter
+        model: userModel
 
-        fillMode: Image.PreserveAspectCrop
-        layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: mask
+        delegate: ItemDelegate {
+            id: userEntry
+                
+            height: inputHeight
+            width: parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            contentItem: Text {
+                renderType: Text.NativeRendering
+                font.family: config.Font
+                font.pointSize: config.LoginFontSize
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: config.AccentText
+
+                text: name
+            }
+
+            background: Rectangle {
+                id: userEntryBackground
+
+                color: config.AccentLight
+                radius: config.CornerRadius
+            }
+
+            states: [
+                State {
+                    name: "hovered"
+                    when: userEntry.hovered
+                    PropertyChanges {
+                        target: userEntryBackground
+                        color: Qt.lighter(config.AccentLight, 1.2)
+                    }
+                }
+            ]
+
+            transitions: Transition {
+                PropertyAnimation {
+                    property: "color"
+                    duration: 150
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    userList.currentIndex = index
+                    usernameField.text = delegateModel.items.get(index).model.name
+                    userPicture.source = delegateModel.items.get(index).model.icon
+                    popup.close()
+                }
+            }
         }
-
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            onClicked: popup.open()
-        }
-    }
-
-    Rectangle {
-        id: mask
-
-        height: inputWidth / 1.5
-        width: inputWidth / 1.5
-        radius: inputWidth / 3
-        visible: false
     }
 
     Popup {
@@ -50,68 +83,10 @@ Column {
             implicitHeight: contentHeight
             spacing: 8
 
-            model: userModel
-            currentIndex: model.lastIndex
+            model: delegateModel
+
+            currentIndex: userModel.lastIndex
             clip: true
-            
-            // TODO: highlight currently selected item + make text bold
-            delegate: ItemDelegate {
-                id: userEntry
-                
-                height: inputHeight
-                width: parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                highlighted: parent.highlightedIndex === index
-        
-                contentItem: Text {
-                    renderType: Text.NativeRendering
-                    font.family: config.Font
-                    font.pointSize: config.LoginFontSize
-                    font.bold: true
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: config.AccentText
-
-                    text: model.name
-                }
-
-                background: Rectangle {
-                    id: userEntryBackground
-
-                    color: config.AccentLight
-                    radius: config.CornerRadius
-                }
-
-                states: [
-                    State {
-                        name: "hovered"
-                        when: userEntry.hovered
-                        PropertyChanges {
-                            target: userEntryBackground
-                            color: Qt.lighter(config.AccentLight, 1.2)
-                        }
-                    }
-                ]
-
-                transitions: Transition {
-                    PropertyAnimation {
-                        property: "color"
-                        duration: 150
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        userList.currentIndex = index
-                        usernameField.text = userList.currentIndex
-                        popup.close()
-                        print(userList.currentIndex)
-                    }
-                }
-            }
         }
 
         background: Rectangle {
@@ -138,61 +113,113 @@ Column {
         }
     }
 
-    TextField {
+    Item {
+        width: inputWidth
+        implicitHeight: pictureBorder.height
+
+        Rectangle {
+            id: pictureBorder
+
+            anchors.centerIn: userPicture
+            height: inputWidth / 1.5 + (border.width * 2)
+            width: inputWidth / 1.5 + (border.width * 2)
+            radius: height / 2
+            border.width: config.LoginUserPictureBorderWidth
+            border.color: config.AccentText
+            color: config.AccentLight
+
+            MouseArea {
+                id: roundMouseArea
+
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onClicked: popup.open()
+                onHoveredChanged: {
+                    if (containsMouse) {
+                        pictureBorder.state = "hovered"
+                    } else {
+                        pictureBorder.state = "unhovered"
+                    }
+                }
+                onPressedChanged: {
+                    if (containsPress) {
+                        pictureBorder.state = "pressed"
+                    } else if (containsMouse) {
+                        pictureBorder.state = "hovered"
+                    } else {
+                        pictureBorder.state = "unhovered"
+                    }
+                }
+            }
+
+            states: [
+                State {
+                    name: "pressed"
+                    PropertyChanges {
+                        target: pictureBorder
+                        border.color: Qt.darker(config.AccentText, 1.5)
+                        color: Qt.darker(config.AccentLight, 1.5)
+                    }
+                },
+                State {
+                    name: "hovered"
+                    PropertyChanges {
+                        target: pictureBorder
+                        border.color: Qt.darker(config.AccentText, 1.2)
+                        color: Qt.darker(config.AccentLight, 1.2)
+                    }
+                },
+                State {
+                    name: "unhovered"
+                    PropertyChanges {
+                        target: pictureBorder
+                        border.color: config.AccentText
+                        color: config.AccentLight
+                    }
+                }
+            ]
+
+transitions: Transition {
+            PropertyAnimation {
+                properties: "border.color, color"
+                duration: 150
+            }
+        }
+
+        }
+
+        Image {
+            id: userPicture
+            source: ""
+
+            height: inputWidth / 1.5
+            width: inputWidth / 1.5
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            fillMode: Image.PreserveAspectCrop
+            layer.enabled: true
+            layer.effect: OpacityMask {
+                maskSource: mask
+            }
+
+            Rectangle {
+                id: mask
+
+                anchors.fill: parent
+                radius: inputWidth / 3
+                visible: false
+            }
+        }
+        
+            }
+
+    UserFieldPanel {
         id: usernameField
 
         height: inputHeight
         width: inputWidth
-        
-        selectByMouse: true
-        echoMode: TextInput.Normal
-
-        renderType: Text.NativeRendering
-        font.family: config.Font
-        font.pointSize: config.LoginFontSize
-        font.bold: true
-        color: config.AccentText
-        horizontalAlignment: Text.AlignHCenter
-
-        placeholderText: "Username"
-        text: userModel.lastUser
-
-        background: Rectangle {
-            id: userFieldBackground
-
-            color: config.AccentDark
-            border.color: config.AccentText
-            border.width: 0
-            radius: config.CornerRadius
-        }
-
-        states: [
-            State {
-                name: "focused"
-                when: usernameField.activeFocus
-                PropertyChanges {
-                    target: userFieldBackground
-                    color: Qt.darker(config.AccentDark, 1.2)
-                    border.width: 3
-                }
-            },
-            State {
-                name: "hovered"
-                when: usernameField.hovered
-                PropertyChanges {
-                    target: userFieldBackground
-                    color: Qt.darker(config.AccentDark, 1.2)
-                }
-            }
-        ]
-
-        transitions: Transition {
-            PropertyAnimation {
-                properties: "color, border.width"
-                duration: 150
-            }
-        }
     }
+
+    Component.onCompleted: userPicture.source = delegateModel.items.get(userList.currentIndex).model.icon
 }
-
-
