@@ -18,15 +18,15 @@ TextField {
     color: config.AccentText
     horizontalAlignment: TextInput.AlignHCenter
 
-    placeholderText: "Enter Password"
+    placeholderText: "Password"
 
     background: Rectangle {
-        id: fieldBackground
+        id: passFieldBackground
 
         color: config.AccentDark
         border.color: config.AccentText
         border.width: 0
-        radius: 5
+        radius: config.CornerRadius
     }
 
     states: [
@@ -34,7 +34,7 @@ TextField {
             name: "focused"
             when: passwordField.activeFocus
             PropertyChanges {
-                target: fieldBackground
+                target: passFieldBackground
                 color: Qt.darker(config.AccentDark, 1.2)
                 border.width: 3
             }
@@ -43,7 +43,7 @@ TextField {
             name: "hovered"
             when: passwordField.hovered
             PropertyChanges {
-                target: fieldBackground
+                target: passFieldBackground
                 color: Qt.darker(config.AccentDark, 1.2)
             }
         }
@@ -51,7 +51,7 @@ TextField {
 
     transitions: Transition {
         PropertyAnimation {
-            properties: "color, border.color, border.width"
+            properties: "color, border.width"
             duration: 150
         }
     }

@@ -11,10 +11,10 @@ Column {
 
         renderType: Text.NativeRendering
         font.family: config.Font
-        font.pointSize: config.DateFontSize
-        font.bold: true
-        opacity: 0.8
-        color: "white"
+        font.pointSize: config.DateSize
+        font.bold: config.DateBold == "true" ? true : false
+        opacity: config.DateOpacity
+        color: config.DateColor
 
         function updateDate() {
             text = new Date().toLocaleDateString(Qt.locale(), config.DateFormat)
@@ -28,10 +28,10 @@ Column {
 
         renderType: Text.NativeRendering
         font.family: config.Font
-        font.pointSize: config.TimeFontSize
-        font.bold: true
-        opacity: 0.8
-        color: "white"
+        font.pointSize: config.TimeSize
+        font.bold: config.TimeBold == "true" ? true : false
+        opacity: config.TimeOpacity
+        color: config.TimeColor
 
         function updateTime() {
             text = new Date().toLocaleTimeString(Qt.locale(), config.TimeFormat)

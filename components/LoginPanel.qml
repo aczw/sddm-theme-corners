@@ -3,7 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 
 Item {
-    property var user: userPanel.currentText
+    property var user: "ash"
     property var password: passwordField.text
     property var session: sessionPanel.currentIndex
     property var inputHeight: Screen.height * config.LoginScale * 0.25
@@ -20,9 +20,6 @@ Item {
     
         UserPanel {
             id: userPanel
-
-            height: inputHeight
-            width: parent.width
         }
 
         PasswordPanel {
@@ -64,7 +61,7 @@ Item {
 
                 color: config.AccentLight
                 opacity: 0.5
-                radius: 5
+                radius: config.CornerRadius
             }
 
             states: [

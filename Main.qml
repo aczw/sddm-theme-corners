@@ -47,7 +47,7 @@ Item {
         
         LoginPanel {
             id: loginPanel
-
+            
             anchors.fill: parent
         }
     }
