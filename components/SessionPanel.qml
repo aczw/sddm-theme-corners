@@ -6,7 +6,7 @@ ComboBox {
     currentIndex: model.lastIndex
     textRole: "name"
 
-    indicator.visible: false
+    indicator.visible: true
     hoverEnabled: true
     
     contentItem: Text {
@@ -34,6 +34,15 @@ ComboBox {
 
             text: model.name
         }
+    }
+
+    indicator {
+
+    }
+
+    background: Rectangle {
+        color: "transparent"
+        border.color: "transparent"
     }
 
     onActivated: print(currentIndex)

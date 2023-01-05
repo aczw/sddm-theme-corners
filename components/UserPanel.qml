@@ -19,8 +19,11 @@ Column {
             height: inputHeight
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
+            highlighted: userList.currentIndex == index
 
             contentItem: Text {
+                id: entryText
+
                 renderType: Text.NativeRendering
                 font.family: config.Font
                 font.pointSize: config.LoginFontSize
@@ -35,7 +38,7 @@ Column {
             background: Rectangle {
                 id: userEntryBackground
 
-                color: config.AccentLight
+                color: highlighted ? config.AccentLight : Qt.darker(config.AccentText, 1.3)
                 radius: config.CornerRadius
             }
 
@@ -45,7 +48,7 @@ Column {
                     when: userEntry.hovered
                     PropertyChanges {
                         target: userEntryBackground
-                        color: Qt.lighter(config.AccentLight, 1.2)
+                        color: highlighted ? Qt.lighter(config.AccentLight, 1.2) : Qt.darker(config.AccentText, 1.5)
                     }
                 }
             ]
