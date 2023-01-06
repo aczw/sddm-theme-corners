@@ -27,7 +27,6 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: config.AccentText
-
                 text: name
             }
 
@@ -71,7 +70,6 @@ Item {
 
         height: inputHeight
         width: inputHeight
-
         hoverEnabled: true
 
         icon.source: Qt.resolvedUrl("../icons/session_menu.png")
@@ -100,7 +98,15 @@ Item {
                 when: sessionButton.hovered
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.lighter(config.AccentLight, 1.2)
+                    color: sessionPopup.visible ? Qt.darker(config.AccentLight, 1.2) : Qt.lighter(config.AccentLight, 1.2)
+                }
+            },
+            State {
+                name: "selection"
+                when: sessionPopup.visible
+                PropertyChanges {
+                    target: sessionButtonBg
+                    color: Qt.darker(config.AccentLight, 1.2)
                 }
             }
         ]
@@ -113,7 +119,8 @@ Item {
         }
 
         onClicked: {
-            sessionPopup.open()
+            sessionPopup.visible ? sessionPopup.close() : sessionPopup.open()
+            sessionButton.state = "pressed"
         }
     }
 
@@ -121,7 +128,8 @@ Item {
         id: sessionPopup
 
         width: inputWidth
-        y: -contentHeight + (padding * 2)
+        x: sessionButton.height + sessionList.spacing
+        y: -(contentHeight + padding * 2) + sessionButton.height
         padding: 15
         transformOrigin: Popup.BottomLeft
 
@@ -144,7 +152,7 @@ Item {
 
         enter: Transition {
             NumberAnimation {
-                properties: "opacity, scale"
+                properties: "opacity"
                 from: 0
                 to: 1
                 duration: 200
@@ -154,7 +162,7 @@ Item {
 
         exit: Transition {
             NumberAnimation {
-                properties: "opacity, scale"
+                properties: "opacity"
                 from: 1
                 to: 0
                 duration: 200

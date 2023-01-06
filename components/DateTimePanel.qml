@@ -14,7 +14,7 @@ Column {
         font.pointSize: config.DateSize
         font.bold: config.DateBold == "true" ? true : false
         opacity: config.DateOpacity
-        color: config.DateColor
+        color: config.AccentText
 
         function updateDate() {
             text = new Date().toLocaleDateString(Qt.locale(), config.DateFormat)
@@ -31,7 +31,7 @@ Column {
         font.pointSize: config.TimeSize
         font.bold: config.TimeBold == "true" ? true : false
         opacity: config.TimeOpacity
-        color: config.TimeColor
+        color: config.AccentText
 
         function updateTime() {
             text = new Date().toLocaleTimeString(Qt.locale(), config.TimeFormat)

@@ -94,7 +94,7 @@ Column {
 
         enter: Transition {
             NumberAnimation {
-                properties: "opacity, scale"
+                properties: "opacity"
                 from: 0
                 to: 1
                 duration: 200
@@ -104,7 +104,7 @@ Column {
 
         exit: Transition {
             NumberAnimation {
-                properties: "opacity, scale"
+                properties: "opacity"
                 from: 1
                 to: 0
                 duration: 200

@@ -21,7 +21,7 @@ TextField {
     placeholderText: "Password"
 
     background: Rectangle {
-        id: passFieldBackground
+        id: passFieldBg
 
         color: config.AccentDark
         border.color: config.AccentText
@@ -34,7 +34,7 @@ TextField {
             name: "focused"
             when: passwordField.activeFocus
             PropertyChanges {
-                target: passFieldBackground
+                target: passFieldBg
                 color: Qt.darker(config.AccentDark, 1.2)
                 border.width: 3
             }
@@ -43,7 +43,7 @@ TextField {
             name: "hovered"
             when: passwordField.hovered
             PropertyChanges {
-                target: passFieldBackground
+                target: passFieldBg
                 color: Qt.darker(config.AccentDark, 1.2)
             }
         }
