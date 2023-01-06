@@ -7,25 +7,24 @@ TextField {
 
     height: inputHeight
     width: inputWidth
-
     selectByMouse: true
     echoMode: TextInput.Normal
 
     renderType: Text.NativeRendering
     font.family: config.Font
-    font.pointSize: config.LoginFontSize
+    font.pointSize: config.GeneralFontSize
     font.bold: true
-    color: config.AccentText
+    color: config.TextFieldTextColor
     horizontalAlignment: Text.AlignHCenter
 
-    placeholderText: "Username"
+    placeholderText: "User"
     text: userModel.lastUser
 
     background: Rectangle {
         id: userFieldBackground
 
-        color: config.AccentDark
-        border.color: config.AccentText
+        color: config.TextFieldColor
+        border.color: config.TextFieldTextColor
         border.width: 0
         radius: config.CornerRadius
     }
@@ -36,7 +35,7 @@ TextField {
             when: usernameField.activeFocus
             PropertyChanges {
                 target: userFieldBackground
-                color: Qt.darker(config.AccentDark, 1.2)
+                color: Qt.darker(config.TextFieldColor, 1.2)
                 border.width: 3
             }
         },
@@ -45,7 +44,7 @@ TextField {
             when: usernameField.hovered
             PropertyChanges {
                 target: userFieldBackground
-                color: Qt.darker(config.AccentDark, 1.2)
+                color: Qt.darker(config.TextFieldColor, 1.2)
             }
         }
     ]

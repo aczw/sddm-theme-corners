@@ -6,25 +6,23 @@ TextField {
 
     focus: true
     selectByMouse: true
-
+    placeholderText: "Password"
     echoMode: TextInput.Password
     passwordCharacter: "•"
     passwordMaskDelay: 1000
     
     renderType: Text.NativeRendering
     font.family: config.Font
-    font.pointSize: config.LoginFontSize
+    font.pointSize: config.GeneralFontSize
     font.bold: true
-    color: config.AccentText
+    color: config.TextFieldTextColor
     horizontalAlignment: TextInput.AlignHCenter
-
-    placeholderText: "Password"
-
+    
     background: Rectangle {
         id: passFieldBg
 
-        color: config.AccentDark
-        border.color: config.AccentText
+        color: config.TextFieldColor
+        border.color: config.TextFieldTextColor
         border.width: 0
         radius: config.CornerRadius
     }
@@ -35,7 +33,7 @@ TextField {
             when: passwordField.activeFocus
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.AccentDark, 1.2)
+                color: Qt.darker(config.TextFieldColor, 1.2)
                 border.width: 3
             }
         },
@@ -44,7 +42,7 @@ TextField {
             when: passwordField.hovered
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.AccentDark, 1.2)
+                color: Qt.darker(config.TextFieldColor, 1.2)
             }
         }
     ]

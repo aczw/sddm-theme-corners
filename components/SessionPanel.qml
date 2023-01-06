@@ -22,18 +22,18 @@ Item {
             contentItem: Text {
                 renderType: Text.NativeRendering
                 font.family: config.Font
-                font.pointSize: config.LoginFontSize
+                font.pointSize: config.GeneralFontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.AccentText
+                color: highlighted ? config.PopupBgColor : config.PopupHighlightColor
                 text: name
             }
 
             background: Rectangle {
                 id: sessionEntryBg
 
-                color: highlighted ? config.AccentLight : Qt.darker(config.AccentText, 1.3)
+                color: highlighted ? config.PopupHighlightColor : config.PopupBgColor
                 radius: config.CornerRadius
             }
 
@@ -43,7 +43,7 @@ Item {
                     when: sessionEntry.hovered
                     PropertyChanges {
                         target: sessionEntryBg
-                        color: highlighted ? Qt.lighter(config.AccentLight, 1.2) : Qt.darker(config.AccentText, 1.5)
+                        color: highlighted ? Qt.darker(config.PopupHighlightColor, 1.2) : Qt.darker(config.PopupBgColor, 1.2)
                     }
                 }
             ]
@@ -75,12 +75,12 @@ Item {
         icon.source: Qt.resolvedUrl("../icons/session_menu.png")
         icon.height: height * 0.5
         icon.width: width * 0.5
-        icon.color: config.AccentText
+        icon.color: config.SessionIconColor
         
         background: Rectangle {
             id: sessionButtonBg
 
-            color: config.AccentLight
+            color: config.SessionButtonColor
             radius: config.CornerRadius
         }
 
@@ -90,7 +90,7 @@ Item {
                 when: sessionButton.down
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.AccentLight, 1.2)
+                    color: Qt.darker(config.SessionButtonColor, 1.2)
                 }
             },
             State {
@@ -98,7 +98,7 @@ Item {
                 when: sessionButton.hovered
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: sessionPopup.visible ? Qt.darker(config.AccentLight, 1.2) : Qt.lighter(config.AccentLight, 1.2)
+                    color: Qt.darker(config.SessionButtonColor, 1.2)
                 }
             },
             State {
@@ -106,7 +106,7 @@ Item {
                 when: sessionPopup.visible
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.AccentLight, 1.2)
+                    color: Qt.darker(config.SessionButtonColor, 1.2)
                 }
             }
         ]
@@ -135,7 +135,7 @@ Item {
 
         background: Rectangle {
             radius: config.CornerRadius * 1.8
-            color: config.AccentText
+            color: config.PopupBgColor
         }
         
         contentItem: ListView {
@@ -143,9 +143,7 @@ Item {
 
             implicitHeight: contentHeight
             spacing: 8
-
             model: sessionWrapper
-
             currentIndex: sessionModel.lastIndex
             clip: true
         }

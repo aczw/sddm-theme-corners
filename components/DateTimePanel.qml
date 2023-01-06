@@ -8,14 +8,14 @@ Column {
         id: dateLabel
 
         anchors.right: parent.right
+        opacity: config.DateOpacity
 
         renderType: Text.NativeRendering
         font.family: config.Font
         font.pointSize: config.DateSize
-        font.bold: config.DateBold == "true" ? true : false
-        opacity: config.DateOpacity
-        color: config.AccentText
-
+        font.bold: config.DateIsBold == "true" ? true : false
+        color: config.DateColor
+                
         function updateDate() {
             text = new Date().toLocaleDateString(Qt.locale(), config.DateFormat)
         }
@@ -25,13 +25,13 @@ Column {
         id: timeLabel
 
         anchors.right: parent.right
+        opacity: config.TimeOpacity
 
         renderType: Text.NativeRendering
         font.family: config.Font
         font.pointSize: config.TimeSize
-        font.bold: config.TimeBold == "true" ? true : false
-        opacity: config.TimeOpacity
-        color: config.AccentText
+        font.bold: config.TimeIsBold == "true" ? true : false
+        color: config.TimeColor
 
         function updateTime() {
             text = new Date().toLocaleTimeString(Qt.locale(), config.TimeFormat)

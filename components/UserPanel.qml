@@ -22,19 +22,18 @@ Column {
             contentItem: Text {
                 renderType: Text.NativeRendering
                 font.family: config.Font
-                font.pointSize: config.LoginFontSize
+                font.pointSize: config.GeneralFontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.AccentText
-
+                color: highlighted ? config.PopupBgColor : config.PopupHighlightColor
                 text: name
             }
 
             background: Rectangle {
                 id: userEntryBg
 
-                color: highlighted ? config.AccentLight : Qt.darker(config.AccentText, 1.3)
+                color: highlighted ? config.PopupHighlightColor : config.PopupBgColor
                 radius: config.CornerRadius
             }
 
@@ -44,7 +43,7 @@ Column {
                     when: userEntry.hovered
                     PropertyChanges {
                         target: userEntryBg
-                        color: highlighted ? Qt.lighter(config.AccentLight, 1.2) : Qt.darker(config.AccentText, 1.5)
+                        color: highlighted ? Qt.darker(config.PopupHighlightColor, 1.2) : Qt.darker(config.PopupBgColor, 1.2)
                     }
                 }
             ]
@@ -75,21 +74,19 @@ Column {
         y: (inputWidth / 3) - padding - (userList.implicitHeight / 2)
         padding: 15
 
+        background: Rectangle {
+            radius: config.CornerRadius * 1.8
+            color: config.PopupBgColor
+        }
+
         contentItem: ListView {
             id: userList
 
             implicitHeight: contentHeight
             spacing: 8
-
             model: userWrapper
-
             currentIndex: userModel.lastIndex
             clip: true
-        }
-
-        background: Rectangle {
-            radius: config.CornerRadius * 1.8
-            color: config.AccentText
         }
 
         enter: Transition {
@@ -124,9 +121,9 @@ Column {
             height: inputWidth / 1.5 + (border.width * 2)
             width: inputWidth / 1.5 + (border.width * 2)
             radius: height / 2
-            border.width: config.LoginUserPictureBorderWidth
-            border.color: config.AccentText
-            color: config.AccentLight
+            border.width: config.UserPictureBorderWidth
+            border.color: config.UserPictureBorderColor
+            color: config.UserPictureColor
 
             MouseArea {
                 id: roundMouseArea
@@ -158,24 +155,24 @@ Column {
                     name: "pressed"
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.AccentText, 1.5)
-                        color: Qt.darker(config.AccentLight, 1.5)
+                        border.color: Qt.darker(config.UserPictureBorderColor, 1.2)
+                        color: Qt.darker(config.UserPictureColor, 1.2)
                     }
                 },
                 State {
                     name: "hovered"
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.AccentText, 1.2)
-                        color: Qt.darker(config.AccentLight, 1.2)
+                        border.color: Qt.darker(config.UserPictureBorderColor, 1.2)
+                        color: Qt.darker(config.UserPictureColor, 1.2)
                     }
                 },
                 State {
                     name: "unhovered"
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: config.AccentText
-                        color: config.AccentLight
+                        border.color: config.UserPictureBorderColor
+                        color: config.UserPictureColor
                     }
                 }
             ]

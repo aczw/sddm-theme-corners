@@ -55,20 +55,20 @@ Item {
 
                 renderType: Text.NativeRendering
                 font.family: config.Font
-                font.pointSize: config.LoginFontSize
+                font.pointSize: config.GeneralFontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.AccentText
-                opacity: 0.5
 
+                color: config.LoginButtonTextColor
+                opacity: 0.5
                 text: "Login!!"
             }
         
             background: Rectangle {
                 id: buttonBackground
 
-                color: config.AccentLight
+                color: config.LoginButtonBgColor
                 opacity: 0.5
                 radius: config.CornerRadius
             }
@@ -78,7 +78,6 @@ Item {
 
                 radius: parent.width / 2
                 anchors.centerIn: loginButton
-
                 color: "black"
                 opacity: 1
 
@@ -100,7 +99,7 @@ Item {
                     when: loginButton.down
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(config.AccentLight, 1.2)
+                        color: Qt.darker(config.LoginButtonBgColor, 1.4)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -113,7 +112,7 @@ Item {
                     when: loginButton.hovered
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.lighter(config.AccentLight, 1.2)
+                        color: Qt.darker(config.LoginButtonBgColor, 1.2)
                         opacity: 1
                     }
                     PropertyChanges {
@@ -126,7 +125,6 @@ Item {
                     when: loginButton.enabled
                     PropertyChanges {
                         target: buttonBackground
-                        color: config.AccentLight
                         opacity: 1
                     }
                     PropertyChanges {
@@ -143,12 +141,7 @@ Item {
                 }
             }
 
-            onClicked: {
-                sddm.login(user, password, session)
-                print("user: " + user)
-                print("password: " + password)
-                print("session: " + session)
-            }
+            onClicked: sddm.login(user, password, session)
         }
     }
     
