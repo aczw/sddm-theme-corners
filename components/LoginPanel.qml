@@ -5,9 +5,18 @@ import QtQuick.Controls 2.12
 Item {
     property var user: userPanel.username
     property var password: passwordField.text
-    property var session: sessionPanel.currentIndex
+    property var session: sessionPanel.session
     property var inputHeight: Screen.height * config.LoginScale * 0.25
     property var inputWidth: Screen.width * config.LoginScale
+
+    SessionPanel {
+        id: sessionPanel
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+        }
+    }
 
     Column {
         spacing: 8
@@ -62,6 +71,27 @@ Item {
                 color: config.AccentLight
                 opacity: 0.5
                 radius: config.CornerRadius
+            }
+
+            Rectangle {
+                id: loginAnim
+
+                radius: parent.width / 2
+                anchors.centerIn: loginButton
+
+                color: "black"
+                opacity: 1
+
+                NumberAnimation {
+                    id: coverScreen
+
+                    target: loginAnim
+                    properties: "height, width"
+                    from: 0
+                    to: root.width * 2
+                    duration: 1000
+                    easing.type: Easing.InExpo
+                }
             }
 
             states: [
@@ -121,21 +151,14 @@ Item {
             }
         }
     }
-
-    SessionPanel {
-        id: sessionPanel
-
-        height: inputHeight
-        width: inputWidth
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-        }
-    }
-
+    
     Connections {
         target: sddm
-        function onLoginSucceeded() {}
-        function onLoginFailed() {}
-    } 
+        function onLoginSucceeded() {
+            coverScreen.start()
+        }
+        function onLoginFailed() {
+            passwordField.text = ""
+        }
+    }
 }

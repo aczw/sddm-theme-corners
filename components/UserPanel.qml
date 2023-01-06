@@ -9,21 +9,17 @@ Column {
     spacing: 30
 
     DelegateModel {
-        id: delegateModel
+        id: userWrapper
 
         model: userModel
-
         delegate: ItemDelegate {
             id: userEntry
                 
             height: inputHeight
             width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
             highlighted: userList.currentIndex == index
 
             contentItem: Text {
-                id: entryText
-
                 renderType: Text.NativeRendering
                 font.family: config.Font
                 font.pointSize: config.LoginFontSize
@@ -36,7 +32,7 @@ Column {
             }
 
             background: Rectangle {
-                id: userEntryBackground
+                id: userEntryBg
 
                 color: highlighted ? config.AccentLight : Qt.darker(config.AccentText, 1.3)
                 radius: config.CornerRadius
@@ -47,7 +43,7 @@ Column {
                     name: "hovered"
                     when: userEntry.hovered
                     PropertyChanges {
-                        target: userEntryBackground
+                        target: userEntryBg
                         color: highlighted ? Qt.lighter(config.AccentLight, 1.2) : Qt.darker(config.AccentText, 1.5)
                     }
                 }
@@ -62,22 +58,21 @@ Column {
 
             MouseArea {
                 anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     userList.currentIndex = index
-                    usernameField.text = delegateModel.items.get(index).model.name
-                    userPicture.source = delegateModel.items.get(index).model.icon
-                    popup.close()
+                    usernameField.text = userWrapper.items.get(index).model.name
+                    userPicture.source = userWrapper.items.get(index).model.icon
+                    userPopup.close()
                 }
             }
         }
     }
 
     Popup {
-        id: popup
+        id: userPopup
 
         width: inputWidth
-        y: (inputWidth / 3) - padding - (inputHeight * userList.count * 0.5) - (userList.spacing * (userList.count - 1) * 0.5)
+        y: (inputWidth / 3) - padding - (userList.implicitHeight / 2)
         padding: 15
 
         contentItem: ListView {
@@ -86,7 +81,7 @@ Column {
             implicitHeight: contentHeight
             spacing: 8
 
-            model: delegateModel
+            model: userWrapper
 
             currentIndex: userModel.lastIndex
             clip: true
@@ -99,19 +94,21 @@ Column {
 
         enter: Transition {
             NumberAnimation {
-                property: "opacity"
+                properties: "opacity, scale"
                 from: 0
                 to: 1
-                duration: 150
+                duration: 200
+                easing.type: Easing.InOutQuad
             }
         }
 
         exit: Transition {
             NumberAnimation {
-                property: "opacity"
+                properties: "opacity, scale"
                 from: 1
                 to: 0
-                duration: 150
+                duration: 200
+                easing.type: Easing.InOutQuad
             }
         }
     }
@@ -137,7 +134,7 @@ Column {
                 anchors.fill: parent
                 hoverEnabled: true
 
-                onClicked: popup.open()
+                onClicked: userPopup.open()
                 onHoveredChanged: {
                     if (containsMouse) {
                         pictureBorder.state = "hovered"
@@ -183,13 +180,12 @@ Column {
                 }
             ]
 
-transitions: Transition {
-            PropertyAnimation {
-                properties: "border.color, color"
-                duration: 150
+            transitions: Transition {
+                PropertyAnimation {
+                    properties: "border.color, color"
+                    duration: 150
+                }
             }
-        }
-
         }
 
         Image {
@@ -214,8 +210,7 @@ transitions: Transition {
                 visible: false
             }
         }
-        
-            }
+    }
 
     UserFieldPanel {
         id: usernameField
@@ -224,5 +219,5 @@ transitions: Transition {
         width: inputWidth
     }
 
-    Component.onCompleted: userPicture.source = delegateModel.items.get(userList.currentIndex).model.icon
+    Component.onCompleted: userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon
 }

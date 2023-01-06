@@ -1,49 +1,165 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQml.Models 2.12
 
-ComboBox {
-    model: sessionModel
-    currentIndex: model.lastIndex
-    textRole: "name"
+Item {
+    property var session: sessionList.currentIndex
 
-    indicator.visible: true
-    hoverEnabled: true
-    
-    contentItem: Text {
-        renderType: Text.NativeRendering
-        font.family: config.Font
-        font.pointSize: config.LoginFontSize
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
+    implicitHeight: sessionButton.height
+    implicitWidth: sessionButton.width
 
-        text: "Session: " + parent.currentText
-    }
+    DelegateModel {
+        id: sessionWrapper
 
-    delegate: ItemDelegate {
-        id: sessionEntry
-        
-        width: parent.width
-        anchors.horizontalCenter: parent.horizontalCenter
-        
-        contentItem: Text {
-            renderType: Text.NativeRendering
-            font.family: config.Font
-            font.pointSize: config.LoginFontSize
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
+        model: sessionModel
+        delegate: ItemDelegate {
+            id: sessionEntry
 
-            text: model.name
+            height: inputHeight
+            width: parent.width
+            highlighted: sessionList.currentIndex == index
+
+            contentItem: Text {
+                renderType: Text.NativeRendering
+                font.family: config.Font
+                font.pointSize: config.LoginFontSize
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: config.AccentText
+
+                text: name
+            }
+
+            background: Rectangle {
+                id: sessionEntryBg
+
+                color: highlighted ? config.AccentLight : Qt.darker(config.AccentText, 1.3)
+                radius: config.CornerRadius
+            }
+
+            states: [
+                State {
+                    name: "hovered"
+                    when: sessionEntry.hovered
+                    PropertyChanges {
+                        target: sessionEntryBg
+                        color: highlighted ? Qt.lighter(config.AccentLight, 1.2) : Qt.darker(config.AccentText, 1.5)
+                    }
+                }
+            ]
+
+            transitions: Transition {
+                PropertyAnimation {
+                    property: "color"
+                    duration: 150
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    sessionList.currentIndex = index
+                    sessionPopup.close()
+                }
+            }
         }
     }
 
-    indicator {
+    Button {
+        id: sessionButton
 
+        height: inputHeight
+        width: inputHeight
+
+        hoverEnabled: true
+
+        icon.source: Qt.resolvedUrl("../icons/session_menu.png")
+        icon.height: height * 0.5
+        icon.width: width * 0.5
+        icon.color: config.AccentText
+        
+        background: Rectangle {
+            id: sessionButtonBg
+
+            color: config.AccentLight
+            radius: config.CornerRadius
+        }
+
+        states: [
+            State {
+                name: "pressed"
+                when: sessionButton.down
+                PropertyChanges {
+                    target: sessionButtonBg
+                    color: Qt.darker(config.AccentLight, 1.2)
+                }
+            },
+            State {
+                name: "hovered"
+                when: sessionButton.hovered
+                PropertyChanges {
+                    target: sessionButtonBg
+                    color: Qt.lighter(config.AccentLight, 1.2)
+                }
+            }
+        ]
+
+        transitions: Transition {
+            PropertyAnimation {
+                properties: "color"
+                duration: 150
+            }
+        }
+
+        onClicked: {
+            sessionPopup.open()
+        }
     }
 
-    background: Rectangle {
-        color: "transparent"
-        border.color: "transparent"
-    }
+    Popup {
+        id: sessionPopup
 
-    onActivated: print(currentIndex)
+        width: inputWidth
+        y: -contentHeight + (padding * 2)
+        padding: 15
+        transformOrigin: Popup.BottomLeft
+
+        background: Rectangle {
+            radius: config.CornerRadius * 1.8
+            color: config.AccentText
+        }
+        
+        contentItem: ListView {
+            id: sessionList
+
+            implicitHeight: contentHeight
+            spacing: 8
+
+            model: sessionWrapper
+
+            currentIndex: sessionModel.lastIndex
+            clip: true
+        }
+
+        enter: Transition {
+            NumberAnimation {
+                properties: "opacity, scale"
+                from: 0
+                to: 1
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
+
+        exit: Transition {
+            NumberAnimation {
+                properties: "opacity, scale"
+                from: 1
+                to: 0
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
+    }
 }
