@@ -8,15 +8,23 @@ Item {
     property var session: sessionPanel.session
     property var inputHeight: Screen.height * config.LoginScale * 0.25
     property var inputWidth: Screen.width * config.LoginScale
-
-    SessionPanel {
-        id: sessionPanel
+    
+    Column {
+        spacing: 8
 
         anchors {
             bottom: parent.bottom
             left: parent.left
         }
+
+        PowerPanel {
+            id: powerPanel
+        }
+
+    SessionPanel {
+        id: sessionPanel
     }
+}
 
     Column {
         spacing: 8

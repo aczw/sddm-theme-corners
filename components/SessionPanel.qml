@@ -127,11 +127,10 @@ Item {
     Popup {
         id: sessionPopup
 
-        width: inputWidth
-        x: sessionButton.height + sessionList.spacing
+        width: inputWidth + padding * 2
+        x: sessionButton.width + sessionList.spacing
         y: -(contentHeight + padding * 2) + sessionButton.height
         padding: 15
-        transformOrigin: Popup.BottomLeft
 
         background: Rectangle {
             radius: config.CornerRadius * 1.8
@@ -150,7 +149,7 @@ Item {
 
         enter: Transition {
             NumberAnimation {
-                properties: "opacity"
+                property: "opacity"
                 from: 0
                 to: 1
                 duration: 200
@@ -160,7 +159,7 @@ Item {
 
         exit: Transition {
             NumberAnimation {
-                properties: "opacity"
+                property: "opacity"
                 from: 1
                 to: 0
                 duration: 200
