@@ -10,6 +10,7 @@ TextField {
     echoMode: TextInput.Password
     passwordCharacter: "•"
     passwordMaskDelay: 1000
+    selectionColor: config.TextFieldTextColor
     
     renderType: Text.NativeRendering
     font.family: config.Font

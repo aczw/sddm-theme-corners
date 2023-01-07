@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.12
 
 Item {
     implicitHeight: powerButton.height
@@ -10,7 +11,7 @@ Item {
 
         ListElement { name: "Sleep" }
         ListElement { name: "Restart" }
-        ListElement { name: "Shut Down" }
+        ListElement { name: "Shut\nDown" }
     }
 
     Button {
@@ -20,9 +21,9 @@ Item {
         width: inputHeight
         hoverEnabled: true
 
-        icon.source: Qt.resolvedUrl("../icons/power_menu.png")
-        icon.height: height * 0.5
-        icon.width: width * 0.5
+        icon.source: Qt.resolvedUrl("../icons/power.svg")
+        icon.height: height * 0.8
+        icon.width: width * 0.8
         icon.color: config.PowerIconColor
 
         background: Rectangle {
@@ -75,7 +76,7 @@ Item {
     Popup {
         id: powerPopup
 
-        height: (padding + inputHeight) * 2
+        height: inputHeight * 2.2 + padding * 2
         x: powerButton.width + powerList.spacing
         y: -height + powerButton.height
         padding: 15
@@ -97,20 +98,42 @@ Item {
             delegate: ItemDelegate {
                 id: powerEntry
 
-                height: inputHeight * 2
-                width: inputHeight * 2
+                height: inputHeight * 2.2
+                width: inputHeight * 2.2
+                display: AbstractButton.TextUnderIcon
+               
+                contentItem: Item {
+                    Image {
+                        id: powerIcon
+                    
+                        anchors.centerIn: parent
+                        source: index == 0 ? Qt.resolvedUrl("../icons/sleep.svg") : (index == 1 ? Qt.resolvedUrl("../icons/restart.svg") : Qt.resolvedUrl("../icons/power.svg"))
+                        sourceSize: Qt.size(powerEntry.width * 0.5, powerEntry.height * 0.5)
+                    }
 
-                contentItem: Text {
-                    renderType: Text.NativeRendering
-                    font.family: config.Font
-                    font.pointSize: config.GeneralFontSize
-                    font.bold: true
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: config.PopupBgColor
-                    text: name
+                    ColorOverlay {
+                        id: iconOverlay
+
+                        anchors.fill: powerIcon
+                        source: powerIcon
+                        color: config.PopupBgColor
+                    }
+
+                    Text {
+                        id: powerText
+
+                        anchors.centerIn: parent
+                        renderType: Text.NativeRendering
+                        font.family: config.Font
+                        font.pointSize: config.GeneralFontSize
+                        font.bold: true
+                        horizontalAlignment: Text.AlignHCenter
+                        color: config.PopupBgColor
+                        text: name
+                        opacity: 0
+                    }
                 }
-
+                
                 background: Rectangle {
                     id: powerEntryBg
 
@@ -126,12 +149,20 @@ Item {
                             target: powerEntryBg
                             color: Qt.darker(config.PopupHighlightColor, 1.2)
                         }
+                        PropertyChanges {
+                            target: iconOverlay
+                            color: Qt.darker(config.PopupHighlightColor, 1.2)
+                        }
+                        PropertyChanges {
+                            target: powerText
+                            opacity: 1
+                        }
                     }
                 ]
 
                 transitions: Transition {
                     PropertyAnimation {
-                        property: "color"
+                        properties: "color, opacity"
                         duration: 150
                     }
                 }
@@ -140,7 +171,7 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         powerPopup.close()
-                        index == 0 ? sddm.suspend() : index == 1 ? sddm.reboot() : sddm.powerOff()
+                        index == 0 ? sddm.suspend() : (index == 1 ? sddm.reboot() : sddm.powerOff())
                     }
                 }
             }

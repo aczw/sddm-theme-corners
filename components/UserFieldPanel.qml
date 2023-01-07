@@ -9,6 +9,7 @@ TextField {
     width: inputWidth
     selectByMouse: true
     echoMode: TextInput.Normal
+    selectionColor: config.TextFieldTextColor
 
     renderType: Text.NativeRendering
     font.family: config.Font

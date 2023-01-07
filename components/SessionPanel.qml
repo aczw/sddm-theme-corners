@@ -72,9 +72,9 @@ Item {
         width: inputHeight
         hoverEnabled: true
 
-        icon.source: Qt.resolvedUrl("../icons/session_menu.png")
-        icon.height: height * 0.5
-        icon.width: width * 0.5
+        icon.source: Qt.resolvedUrl("../icons/settings.svg")
+        icon.height: height * 0.8
+        icon.width: width * 0.8
         icon.color: config.SessionIconColor
         
         background: Rectangle {

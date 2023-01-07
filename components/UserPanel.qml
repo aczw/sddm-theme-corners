@@ -163,8 +163,8 @@ Column {
                     name: "hovered"
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.UserPictureBorderColor, 1.2)
-                        color: Qt.darker(config.UserPictureColor, 1.2)
+                        border.color: Qt.darker(config.UserPictureBorderColor, 1.4)
+                        color: Qt.darker(config.UserPictureColor, 1.4)
                     }
                 },
                 State {
