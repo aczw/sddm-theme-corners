@@ -1,6 +1,8 @@
-# corners: theme for SDDM
-wasn't really a fan of preexisting [SDDM](https://github.com/sddm/sddm) themes, so I made my own. screenshots config etc incoming
+# corners
 
-mostly just wanted to get basic functionality working, so aesthetics are uhhh not the best. will be fixing this!!
+theme for [SDDM](https://github.com/sddm/sddm) that puts stuff on the corners of the screen. take a look!
+
+![glacier preview](preview/glacier.png)
+![hanako preview](preview/hanako.png)
 
 kinda inspired by [sddm-chinese-painting-theme](https://github.com/fralonra/sddm-chinese-painting-theme)
