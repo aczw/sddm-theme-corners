@@ -73,8 +73,8 @@ Item {
         hoverEnabled: true
 
         icon.source: Qt.resolvedUrl("../icons/settings.svg")
-        icon.height: height * 0.8
-        icon.width: width * 0.8
+        icon.height: height * 0.6
+        icon.width: width * 0.6
         icon.color: config.SessionIconColor
         
         background: Rectangle {

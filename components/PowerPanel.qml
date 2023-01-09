@@ -22,8 +22,8 @@ Item {
         hoverEnabled: true
 
         icon.source: Qt.resolvedUrl("../icons/power.svg")
-        icon.height: height * 0.8
-        icon.width: width * 0.8
+        icon.height: height
+        icon.width: width
         icon.color: config.PowerIconColor
 
         background: Rectangle {
