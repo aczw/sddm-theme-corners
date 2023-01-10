@@ -108,4 +108,10 @@ click on the avatar to change users!
 - `TimeOpacity`: the opacity of the time text. set to 1 to disable transparency.
 - `TimeFormat`: specify the formatting of the time.
 
-that's pretty much it. I hope you enjoy the theme. feedback is much appreciated :)
+## license
+
+this project is licensed under the GPLv3 License.
+
+## thanks :)
+
+that's pretty much it. I hope you enjoy the theme. feedback is much appreciated!!
