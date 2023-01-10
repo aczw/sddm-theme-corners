@@ -111,7 +111,7 @@ click on the avatar to change users!
 
 ## license
 
-this project is licensed under the GPLv3 License.
+this project is licensed under the GPLv3 License. check it out [here](LICENSE).
 
 ## thanks :)
 
