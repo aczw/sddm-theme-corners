@@ -21,10 +21,10 @@ Item {
             id: powerPanel
         }
 
-    SessionPanel {
-        id: sessionPanel
+        SessionPanel {
+            id: sessionPanel
+        }
     }
-}
 
     Column {
         spacing: 8
@@ -70,7 +70,7 @@ Item {
 
                 color: config.LoginButtonTextColor
                 opacity: 0.5
-                text: "Login!!"
+                text: config.LoginButtonText
             }
         
             background: Rectangle {

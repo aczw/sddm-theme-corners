@@ -76,6 +76,7 @@ click on the avatar to change users!
 
 - `LoginButtonTextColor`: the color of the login button text.
 - `LoginButtonBgColor`: the color of the login button background.
+- `LoginButtonText`: the text to be displayed on the login button.
 
 ### popup (power, session, and user)
 
