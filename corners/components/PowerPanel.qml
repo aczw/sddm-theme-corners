@@ -178,12 +178,21 @@ Item {
         }
 
         enter: Transition {
-            NumberAnimation {
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: 200
-                easing.type: Easing.InOutQuad
+            ParallelAnimation {
+                NumberAnimation {
+                    property: "opacity"
+                    from: 0
+                    to: 1
+                    duration: 400
+                    easing.type: Easing.OutExpo
+                }
+                NumberAnimation {
+                    property: "x"
+                    from: powerPopup.x - (inputWidth * 0.1)
+                    to: powerPopup.x
+                    duration: 500
+                    easing.type: Easing.OutExpo
+                }
             }
         }
 
@@ -192,8 +201,8 @@ Item {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: 200
-                easing.type: Easing.InOutQuad
+                duration: 300
+                easing.type: Easing.OutExpo
             }
         }
     }

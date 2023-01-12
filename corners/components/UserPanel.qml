@@ -70,6 +70,8 @@ Column {
     Popup {
         id: userPopup
 
+        property var userListHeight: userList.contentHeight
+
         width: inputWidth
         y: (inputWidth / 3) - padding - (userList.implicitHeight / 2)
         padding: 15
@@ -91,11 +93,11 @@ Column {
 
         enter: Transition {
             NumberAnimation {
-                properties: "opacity"
+                property: "opacity"
                 from: 0
                 to: 1
-                duration: 200
-                easing.type: Easing.InOutQuad
+                duration: 400
+                easing.type: Easing.OutExpo
             }
         }
 
@@ -104,8 +106,8 @@ Column {
                 properties: "opacity"
                 from: 1
                 to: 0
-                duration: 200
-                easing.type: Easing.InOutQuad
+                duration: 300
+                easing.type: Easing.OutExpo
             }
         }
     }
