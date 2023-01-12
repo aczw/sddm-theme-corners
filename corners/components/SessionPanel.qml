@@ -26,7 +26,7 @@ Item {
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: highlighted ? config.PopupBgColor : config.PopupHighlightColor
+                color: highlighted ? config.PopupHighlightedTextColor : config.PopupHighlightColor
                 text: name
             }
 

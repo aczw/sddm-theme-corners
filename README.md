@@ -71,6 +71,10 @@ click on the avatar to change users!
 
 - `TextFieldColor`: the color of the text field background for the user and password fields.
 - `TextFieldTextColor`: the color of the text inside the user and password fields.
+- `TextFieldHighlightColor`: the color of the border around the currently selected text field.
+- `TextFieldHighlightWidth`: the border width of the currently selected text field. set to 0 to disable the border.
+- `UserFieldBgText`: the placeholder text shown in the user field when nothing is typed.
+- `PasswordFieldBgText`: the placeholder text shown in the password field when nothing is typed.
 
 ### login button
 
@@ -82,6 +86,7 @@ click on the avatar to change users!
 
 - `PopupBgColor`: the background color of the popup. this applies to the power panel, session panel, and user panel.
 - `PopupHighlightColor`: the color of the currently selected entry in the popup. this applies to the power panel, session panel, and user panel.
+- `PopupHighlightedTextColor`: the color of the text for the currently selected option. only applies to session and user popups.
 
 ### session button
 

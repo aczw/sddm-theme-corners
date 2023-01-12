@@ -18,14 +18,14 @@ TextField {
     color: config.TextFieldTextColor
     horizontalAlignment: Text.AlignHCenter
 
-    placeholderText: "User"
+    placeholderText: config.UserFieldBgText
     text: userModel.lastUser
 
     background: Rectangle {
         id: userFieldBackground
 
         color: config.TextFieldColor
-        border.color: config.TextFieldTextColor
+        border.color: config.TextFieldHighlightColor
         border.width: 0
         radius: config.CornerRadius
     }
@@ -37,7 +37,7 @@ TextField {
             PropertyChanges {
                 target: userFieldBackground
                 color: Qt.darker(config.TextFieldColor, 1.2)
-                border.width: 3
+                border.width: config.TextFieldHighlightWidth
             }
         },
         State {

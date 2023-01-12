@@ -6,7 +6,7 @@ TextField {
 
     focus: true
     selectByMouse: true
-    placeholderText: "Password"
+    placeholderText: config.PasswordFieldBgText
     echoMode: TextInput.Password
     passwordCharacter: "•"
     passwordMaskDelay: 1000
@@ -23,7 +23,7 @@ TextField {
         id: passFieldBg
 
         color: config.TextFieldColor
-        border.color: config.TextFieldTextColor
+        border.color: config.TextFieldHighlightColor
         border.width: 0
         radius: config.CornerRadius
     }
@@ -35,7 +35,7 @@ TextField {
             PropertyChanges {
                 target: passFieldBg
                 color: Qt.darker(config.TextFieldColor, 1.2)
-                border.width: 3
+                border.width: config.TextFieldHighlightWidth
             }
         },
         State {
