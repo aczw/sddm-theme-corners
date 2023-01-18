@@ -109,7 +109,7 @@ Column {
 
         exit: Transition {
             NumberAnimation {
-                properties: "opacity"
+                property: "opacity"
                 from: 1
                 to: 0
                 duration: 300
@@ -215,6 +215,70 @@ Column {
                 visible: false
             }
         }
+
+        Popup {
+            id: incorrectPopup
+
+            height: incorrectText.paintedHeight * 2
+            width: inputWidth
+            y: (pictureBorder.height - height) / 2
+            onOpened: incorrectTimer.start()
+
+            background: Rectangle {
+                radius: config.CornerRadius
+                color: config.PopupBgColor
+            }
+
+            contentItem: Text {
+                id: incorrectText
+
+                renderType: Text.NativeRendering
+                font.family: config.Font
+                font.pointSize: config.GeneralFontSize
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: config.PopupHighlightColor
+
+                text: "Incorrect username\nor password!"
+            }
+
+            enter: Transition {
+                ParallelAnimation {
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 400
+                        easing.type: Easing.OutExpo
+                    }
+                    NumberAnimation {
+                        property: "x"
+                        from: incorrectPopup.x - (inputWidth * 0.1)
+                        to: incorrectPopup.x
+                        duration: 500
+                        easing.type: Easing.OutElastic
+                    }
+                }
+            }
+
+            exit: Transition {
+                NumberAnimation {
+                    property: "opacity"
+                    from: 1
+                    to: 0
+                    duration: 300
+                    easing.type: Easing.OutExpo
+                }
+            }
+
+            Timer {
+                id: incorrectTimer
+
+                interval: 3000
+                onTriggered: incorrectPopup.close()
+            }
+        }
     }
 
     UserFieldPanel {
@@ -225,4 +289,12 @@ Column {
     }
 
     Component.onCompleted: userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon
+
+    Connections {
+        target: sddm
+        function onLoginSucceeded() {}
+        function onLoginFailed() {
+            incorrectPopup.open()
+        }
+    }
 }

@@ -149,7 +149,9 @@ Item {
                 }
             }
 
-            onClicked: sddm.login(user, password, session)
+            onClicked: {
+                sddm.login(user, password, session)
+            }
         }
     }
     
@@ -160,6 +162,7 @@ Item {
         }
         function onLoginFailed() {
             passwordField.text = ""
+            passwordField.focus = true
         }
     }
 }
