@@ -1,70 +1,76 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.12
 import QtQml.Models 2.12
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Column {
     property var username: usernameField.text
 
     spacing: 30
+    Component.onCompleted: userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon
 
     DelegateModel {
         id: userWrapper
 
         model: userModel
+
         delegate: ItemDelegate {
             id: userEntry
-                
+
             height: inputHeight
             width: parent.width
             highlighted: userList.currentIndex == index
+            states: [
+                State {
+                    name: "hovered"
+                    when: userEntry.hovered
+
+                    PropertyChanges {
+                        target: userEntryBg
+                        color: highlighted ? Qt.darker(config.PopupHighlight, 1.2) : Qt.darker(config.PopupBackground, 1.2)
+                    }
+
+                }
+            ]
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    userList.currentIndex = index;
+                    usernameField.text = userWrapper.items.get(index).model.name;
+                    userPicture.source = userWrapper.items.get(index).model.icon;
+                    userPopup.close();
+                }
+            }
 
             contentItem: Text {
                 renderType: Text.NativeRendering
                 font.family: config.Font
-                font.pointSize: config.GeneralFontSize
+                font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: highlighted ? config.PopupHighlightedTextColor : config.PopupHighlightColor
+                color: highlighted ? config.PopupHighlightText : config.PopupHighlight
                 text: name
             }
 
             background: Rectangle {
                 id: userEntryBg
 
-                color: highlighted ? config.PopupHighlightColor : config.PopupBgColor
-                radius: config.CornerRadius
+                color: highlighted ? config.PopupHighlight : config.PopupBackground
+                radius: config.Radius
             }
-
-            states: [
-                State {
-                    name: "hovered"
-                    when: userEntry.hovered
-                    PropertyChanges {
-                        target: userEntryBg
-                        color: highlighted ? Qt.darker(config.PopupHighlightColor, 1.2) : Qt.darker(config.PopupBgColor, 1.2)
-                    }
-                }
-            ]
 
             transitions: Transition {
                 PropertyAnimation {
                     property: "color"
                     duration: 150
                 }
+
             }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    userList.currentIndex = index
-                    usernameField.text = userWrapper.items.get(index).model.name
-                    userPicture.source = userWrapper.items.get(index).model.icon
-                    userPopup.close()
-                }
-            }
         }
+
     }
 
     Popup {
@@ -74,8 +80,8 @@ Column {
         padding: 15
 
         background: Rectangle {
-            radius: config.CornerRadius * 1.8
-            color: config.PopupBgColor
+            radius: config.Radius * 1.8
+            color: config.PopupBackground
         }
 
         contentItem: ListView {
@@ -97,6 +103,7 @@ Column {
                     duration: 400
                     easing.type: Easing.OutExpo
                 }
+
                 NumberAnimation {
                     property: "y"
                     from: (inputWidth / 3) - userPopup.padding - (inputHeight * userList.count * 0.5) - (userList.spacing * (userList.count - 1) * 0.5) + (inputWidth * 0.1)
@@ -104,7 +111,9 @@ Column {
                     duration: 500
                     easing.type: Easing.OutExpo
                 }
+
             }
+
         }
 
         exit: Transition {
@@ -115,7 +124,9 @@ Column {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
+
         }
+
     }
 
     Item {
@@ -129,83 +140,83 @@ Column {
             height: inputWidth / 1.5 + (border.width * 2)
             width: inputWidth / 1.5 + (border.width * 2)
             radius: height / 2
-            border.width: config.UserPictureBorderWidth
-            border.color: config.UserPictureBorderColor
-            color: config.UserPictureColor
+            border.width: config.UAPBorderWidth
+            border.color: config.UAPBorderColor
+            color: config.UAPColor
+            states: [
+                State {
+                    name: "pressed"
+
+                    PropertyChanges {
+                        target: pictureBorder
+                        border.color: Qt.darker(config.UAPBorderColor, 1.2)
+                        color: Qt.darker(config.UAPColor, 1.2)
+                    }
+
+                },
+                State {
+                    name: "hovered"
+
+                    PropertyChanges {
+                        target: pictureBorder
+                        border.color: Qt.darker(config.UAPBorderColor, 1.4)
+                        color: Qt.darker(config.UAPColor, 1.4)
+                    }
+
+                },
+                State {
+                    name: "unhovered"
+
+                    PropertyChanges {
+                        target: pictureBorder
+                        border.color: config.UAPBorderColor
+                        color: config.UAPColor
+                    }
+
+                }
+            ]
 
             MouseArea {
                 id: roundMouseArea
 
                 anchors.fill: parent
                 hoverEnabled: true
-
                 onClicked: userPopup.open()
                 onHoveredChanged: {
-                    if (containsMouse) {
-                        pictureBorder.state = "hovered"
-                    } else {
-                        pictureBorder.state = "unhovered"
-                    }
+                    if (containsMouse)
+                        pictureBorder.state = "hovered";
+                    else
+                        pictureBorder.state = "unhovered";
                 }
                 onPressedChanged: {
-                    if (containsPress) {
-                        pictureBorder.state = "pressed"
-                    } else if (containsMouse) {
-                        pictureBorder.state = "hovered"
-                    } else {
-                        pictureBorder.state = "unhovered"
-                    }
+                    if (containsPress)
+                        pictureBorder.state = "pressed";
+                    else if (containsMouse)
+                        pictureBorder.state = "hovered";
+                    else
+                        pictureBorder.state = "unhovered";
                 }
             }
-
-            states: [
-                State {
-                    name: "pressed"
-                    PropertyChanges {
-                        target: pictureBorder
-                        border.color: Qt.darker(config.UserPictureBorderColor, 1.2)
-                        color: Qt.darker(config.UserPictureColor, 1.2)
-                    }
-                },
-                State {
-                    name: "hovered"
-                    PropertyChanges {
-                        target: pictureBorder
-                        border.color: Qt.darker(config.UserPictureBorderColor, 1.4)
-                        color: Qt.darker(config.UserPictureColor, 1.4)
-                    }
-                },
-                State {
-                    name: "unhovered"
-                    PropertyChanges {
-                        target: pictureBorder
-                        border.color: config.UserPictureBorderColor
-                        color: config.UserPictureColor
-                    }
-                }
-            ]
 
             transitions: Transition {
                 PropertyAnimation {
                     properties: "border.color, color"
                     duration: 150
                 }
+
             }
+
         }
 
         Image {
             id: userPicture
-            source: ""
 
+            source: ""
             height: inputWidth / 1.5
             width: inputWidth / 1.5
             anchors.horizontalCenter: parent.horizontalCenter
-
             fillMode: Image.PreserveAspectCrop
             layer.enabled: true
-            layer.effect: OpacityMask {
-                maskSource: mask
-            }
 
             Rectangle {
                 id: mask
@@ -214,6 +225,11 @@ Column {
                 radius: inputWidth / 3
                 visible: false
             }
+
+            layer.effect: OpacityMask {
+                maskSource: mask
+            }
+
         }
 
         Popup {
@@ -224,9 +240,16 @@ Column {
             y: (pictureBorder.height - height) / 2
             onOpened: incorrectTimer.start()
 
+            Timer {
+                id: incorrectTimer
+
+                interval: 3000
+                onTriggered: incorrectPopup.close()
+            }
+
             background: Rectangle {
-                radius: config.CornerRadius
-                color: config.PopupBgColor
+                radius: config.Radius
+                color: config.PopupBackground
             }
 
             contentItem: Text {
@@ -234,12 +257,11 @@ Column {
 
                 renderType: Text.NativeRendering
                 font.family: config.Font
-                font.pointSize: config.GeneralFontSize
+                font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.PopupHighlightColor
-
+                color: config.PopupHighlight
                 text: "Incorrect username\nor password!"
             }
 
@@ -252,6 +274,7 @@ Column {
                         duration: 400
                         easing.type: Easing.OutExpo
                     }
+
                     NumberAnimation {
                         property: "x"
                         from: incorrectPopup.x - (inputWidth * 0.1)
@@ -259,7 +282,9 @@ Column {
                         duration: 500
                         easing.type: Easing.OutElastic
                     }
+
                 }
+
             }
 
             exit: Transition {
@@ -270,15 +295,11 @@ Column {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
+
             }
 
-            Timer {
-                id: incorrectTimer
-
-                interval: 3000
-                onTriggered: incorrectPopup.close()
-            }
         }
+
     }
 
     UserFieldPanel {
@@ -288,13 +309,15 @@ Column {
         width: inputWidth
     }
 
-    Component.onCompleted: userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon
-
     Connections {
-        target: sddm
-        function onLoginSucceeded() {}
-        function onLoginFailed() {
-            incorrectPopup.open()
+        function onLoginSucceeded() {
         }
+
+        function onLoginFailed() {
+            incorrectPopup.open();
+        }
+
+        target: sddm
     }
+
 }

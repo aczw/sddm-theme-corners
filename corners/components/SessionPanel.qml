@@ -1,6 +1,6 @@
+import QtQml.Models 2.12
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQml.Models 2.12
 
 Item {
     property var session: sessionList.currentIndex
@@ -12,57 +12,62 @@ Item {
         id: sessionWrapper
 
         model: sessionModel
+
         delegate: ItemDelegate {
             id: sessionEntry
 
             height: inputHeight
             width: parent.width
             highlighted: sessionList.currentIndex == index
+            states: [
+                State {
+                    name: "hovered"
+                    when: sessionEntry.hovered
+
+                    PropertyChanges {
+                        target: sessionEntryBg
+                        color: highlighted ? Qt.darker(config.PopupHighlight, 1.2) : Qt.darker(config.PopupBackground, 1.2)
+                    }
+
+                }
+            ]
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    sessionList.currentIndex = index;
+                    sessionPopup.close();
+                }
+            }
 
             contentItem: Text {
                 renderType: Text.NativeRendering
                 font.family: config.Font
-                font.pointSize: config.GeneralFontSize
+                font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: highlighted ? config.PopupHighlightedTextColor : config.PopupHighlightColor
+                color: highlighted ? config.PopupHighlightText : config.PopupHighlight
                 text: name
             }
 
             background: Rectangle {
                 id: sessionEntryBg
 
-                color: highlighted ? config.PopupHighlightColor : config.PopupBgColor
-                radius: config.CornerRadius
+                color: highlighted ? config.PopupHighlight : config.PopupBackground
+                radius: config.Radius
             }
-
-            states: [
-                State {
-                    name: "hovered"
-                    when: sessionEntry.hovered
-                    PropertyChanges {
-                        target: sessionEntryBg
-                        color: highlighted ? Qt.darker(config.PopupHighlightColor, 1.2) : Qt.darker(config.PopupBgColor, 1.2)
-                    }
-                }
-            ]
 
             transitions: Transition {
                 PropertyAnimation {
                     property: "color"
                     duration: 150
                 }
+
             }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    sessionList.currentIndex = index
-                    sessionPopup.close()
-                }
-            }
         }
+
     }
 
     Button {
@@ -71,57 +76,62 @@ Item {
         height: inputHeight
         width: inputHeight
         hoverEnabled: true
-
         icon.source: Qt.resolvedUrl("../icons/settings.svg")
         icon.height: height * 0.6
         icon.width: width * 0.6
         icon.color: config.SessionIconColor
-        
-        background: Rectangle {
-            id: sessionButtonBg
-
-            color: config.SessionButtonColor
-            radius: config.CornerRadius
+        onClicked: {
+            sessionPopup.visible ? sessionPopup.close() : sessionPopup.open();
+            sessionButton.state = "pressed";
         }
-
         states: [
             State {
                 name: "pressed"
                 when: sessionButton.down
+
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.SessionButtonColor, 1.2)
+                    color: Qt.darker(config.SessionButtonBg, 1.2)
                 }
+
             },
             State {
                 name: "hovered"
                 when: sessionButton.hovered
+
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.SessionButtonColor, 1.2)
+                    color: Qt.darker(config.SessionButtonBg, 1.2)
                 }
+
             },
             State {
                 name: "selection"
                 when: sessionPopup.visible
+
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.SessionButtonColor, 1.2)
+                    color: Qt.darker(config.SessionButtonBg, 1.2)
                 }
+
             }
         ]
+
+        background: Rectangle {
+            id: sessionButtonBg
+
+            color: config.SessionButtonBg
+            radius: config.Radius
+        }
 
         transitions: Transition {
             PropertyAnimation {
                 properties: "color"
                 duration: 150
             }
+
         }
 
-        onClicked: {
-            sessionPopup.visible ? sessionPopup.close() : sessionPopup.open()
-            sessionButton.state = "pressed"
-        }
     }
 
     Popup {
@@ -133,10 +143,10 @@ Item {
         padding: 15
 
         background: Rectangle {
-            radius: config.CornerRadius * 1.8
-            color: config.PopupBgColor
+            radius: config.Radius * 1.8
+            color: config.PopupBackground
         }
-        
+
         contentItem: ListView {
             id: sessionList
 
@@ -156,6 +166,7 @@ Item {
                     duration: 400
                     easing.type: Easing.OutExpo
                 }
+
                 NumberAnimation {
                     property: "x"
                     from: sessionPopup.x - (inputWidth * 0.1)
@@ -163,7 +174,9 @@ Item {
                     duration: 500
                     easing.type: Easing.OutExpo
                 }
+
             }
+
         }
 
         exit: Transition {
@@ -174,6 +187,9 @@ Item {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
+
         }
+
     }
+
 }
