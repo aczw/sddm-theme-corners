@@ -29,9 +29,8 @@ for Arch users, the theme is available from the AUR [here](https://aur.archlinux
 on other distros, download/clone this repo, and copy the `corners/` folder to `/usr/share/sddm/themes/`.
 
 ```
-git clone https://github.com/aczw/sddm-theme-corners.git
-cd sddm-theme-corners
-cp -r corners/ /usr/share/sddm/themes/
+cd /usr/share/sddm/themes/
+sudo git clone https://github.com/aczw/sddm-theme-corners.git
 ```
 
 ## configuration
