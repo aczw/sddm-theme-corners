@@ -25,6 +25,7 @@ colors require the leading `#` and all options have to be wrapped in quotation m
 - `FieldBorderColor`: border color of selected field. not visible if width is 0.
 - `UserFieldBgText`: placeholder text shown when user field is empty.
 - `PassFieldBgText`: placeholder text shown when password field is empty.
+- `PassHideInput`: immediately mask text input in the password field.
 
 ## login button
 

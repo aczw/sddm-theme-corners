@@ -9,7 +9,7 @@ TextField {
     placeholderText: config.PassFieldBgText
     echoMode: TextInput.Password
     passwordCharacter: "•"
-    passwordMaskDelay: 1000
+    passwordMaskDelay: config.PassHideInput == "true" ? 0 : 1000
     selectionColor: config.FieldText
     renderType: Text.NativeRendering
     font.family: config.Font
