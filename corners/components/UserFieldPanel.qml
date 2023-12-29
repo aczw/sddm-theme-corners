@@ -9,14 +9,14 @@ TextField {
     width: inputWidth
     selectByMouse: true
     echoMode: TextInput.Normal
-    selectionColor: config.FieldText
+    selectionColor: config.InputTextColor
     renderType: Text.NativeRendering
-    font.family: config.Font
+    font.family: config.FontFamily
     font.pointSize: config.FontSize
     font.bold: true
-    color: config.FieldText
+    color: config.InputTextColor
     horizontalAlignment: Text.AlignHCenter
-    placeholderText: config.UserFieldBgText
+    placeholderText: config.UserPlaceholderText
     text: userModel.lastUser
     states: [
         State {
@@ -25,8 +25,8 @@ TextField {
 
             PropertyChanges {
                 target: userFieldBackground
-                color: Qt.darker(config.FieldBackground, 1.2)
-                border.width: config.FieldBorderWidth
+                color: Qt.darker(config.InputColor, 1.2)
+                border.width: config.InputBorderWidth
             }
 
         },
@@ -36,7 +36,7 @@ TextField {
 
             PropertyChanges {
                 target: userFieldBackground
-                color: Qt.darker(config.FieldBackground, 1.2)
+                color: Qt.darker(config.InputColor, 1.2)
             }
 
         }
@@ -45,8 +45,8 @@ TextField {
     background: Rectangle {
         id: userFieldBackground
 
-        color: config.FieldBackground
-        border.color: config.FieldBorderColor
+        color: config.InputColor
+        border.color: config.InputBorderColor
         border.width: 0
         radius: config.Radius
     }

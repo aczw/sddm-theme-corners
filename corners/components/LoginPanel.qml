@@ -3,11 +3,11 @@ import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 
 Item {
-    property var user: userPanel.username
-    property var password: passwordField.text
-    property var session: sessionPanel.session
-    property var inputHeight: Screen.height * config.UIScale * 0.25
-    property var inputWidth: Screen.width * config.UIScale
+    property string user: userPanel.username
+    property string password: passwordField.text
+    property int session: sessionPanel.session
+    property double inputHeight: Screen.height * 0.175 * 0.25 * config.Scale
+    property double inputWidth: Screen.width * 0.175 * config.Scale
 
     Column {
         spacing: 8
@@ -17,14 +17,8 @@ Item {
             left: parent.left
         }
 
-        PowerPanel {
-            id: powerPanel
-        }
-
-        SessionPanel {
-            id: sessionPanel
-        }
-
+        PowerPanel {}
+        SessionPanel { id: sessionPanel }
     }
 
     Column {
@@ -36,9 +30,7 @@ Item {
             right: parent.right
         }
 
-        UserPanel {
-            id: userPanel
-        }
+        UserPanel { id: userPanel }
 
         PasswordPanel {
             id: passwordField
@@ -66,7 +58,7 @@ Item {
 
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(config.LoginButtonBg, 1.4)
+                        color: Qt.darker(config.LoginButtonColor, 1.4)
                         opacity: 1
                     }
 
@@ -82,7 +74,7 @@ Item {
 
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(config.LoginButtonBg, 1.2)
+                        color: Qt.darker(config.LoginButtonColor, 1.2)
                         opacity: 1
                     }
 
@@ -134,7 +126,7 @@ Item {
                 id: buttonText
 
                 renderType: Text.NativeRendering
-                font.family: config.Font
+                font.family: config.FontFamily
                 font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
@@ -147,7 +139,7 @@ Item {
             background: Rectangle {
                 id: buttonBackground
 
-                color: config.LoginButtonBg
+                color: config.LoginButtonColor
                 opacity: 0.5
                 radius: config.Radius
             }

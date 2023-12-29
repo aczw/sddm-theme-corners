@@ -3,7 +3,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 Item {
-    property var session: sessionList.currentIndex
+    property int session: sessionList.currentIndex
 
     implicitHeight: sessionButton.height
     implicitWidth: sessionButton.width
@@ -26,7 +26,7 @@ Item {
 
                     PropertyChanges {
                         target: sessionEntryBg
-                        color: highlighted ? Qt.darker(config.PopupHighlight, 1.2) : Qt.darker(config.PopupBackground, 1.2)
+                        color: highlighted ? Qt.darker(config.PopupActiveColor, 1.2) : Qt.darker(config.PopupColor, 1.2)
                     }
 
                 }
@@ -42,19 +42,19 @@ Item {
 
             contentItem: Text {
                 renderType: Text.NativeRendering
-                font.family: config.Font
+                font.family: config.FontFamily
                 font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: highlighted ? config.PopupHighlightText : config.PopupHighlight
+                color: highlighted ? config.PopupActiveTextColor : config.PopupActiveColor
                 text: name
             }
 
             background: Rectangle {
                 id: sessionEntryBg
 
-                color: highlighted ? config.PopupHighlight : config.PopupBackground
+                color: highlighted ? config.PopupActiveColor : config.PopupColor
                 radius: config.Radius
             }
 
@@ -91,7 +91,7 @@ Item {
 
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.SessionButtonBg, 1.2)
+                    color: Qt.darker(config.SessionButtonColor, 1.2)
                 }
 
             },
@@ -101,7 +101,7 @@ Item {
 
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.SessionButtonBg, 1.2)
+                    color: Qt.darker(config.SessionButtonColor, 1.2)
                 }
 
             },
@@ -111,7 +111,7 @@ Item {
 
                 PropertyChanges {
                     target: sessionButtonBg
-                    color: Qt.darker(config.SessionButtonBg, 1.2)
+                    color: Qt.darker(config.SessionButtonColor, 1.2)
                 }
 
             }
@@ -120,7 +120,7 @@ Item {
         background: Rectangle {
             id: sessionButtonBg
 
-            color: config.SessionButtonBg
+            color: config.SessionButtonColor
             radius: config.Radius
         }
 
@@ -144,7 +144,7 @@ Item {
 
         background: Rectangle {
             radius: config.Radius * 1.8
-            color: config.PopupBackground
+            color: config.PopupColor
         }
 
         contentItem: ListView {

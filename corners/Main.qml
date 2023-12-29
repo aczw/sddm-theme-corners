@@ -13,7 +13,7 @@ Rectangle {
     Image {
         anchors { fill: parent }
 
-        source: config.Background
+        source: config.BgSource
         fillMode: Image.PreserveAspectCrop
         clip: true
     }

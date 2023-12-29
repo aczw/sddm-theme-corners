@@ -27,7 +27,7 @@ Column {
 
                     PropertyChanges {
                         target: userEntryBg
-                        color: highlighted ? Qt.darker(config.PopupHighlight, 1.2) : Qt.darker(config.PopupBackground, 1.2)
+                        color: highlighted ? Qt.darker(config.PopupActiveColor, 1.2) : Qt.darker(config.PopupColor, 1.2)
                     }
 
                 }
@@ -45,19 +45,19 @@ Column {
 
             contentItem: Text {
                 renderType: Text.NativeRendering
-                font.family: config.Font
+                font.family: config.FontFamily
                 font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: highlighted ? config.PopupHighlightText : config.PopupHighlight
+                color: highlighted ? config.PopupActiveTextColor : config.PopupActiveColor
                 text: name
             }
 
             background: Rectangle {
                 id: userEntryBg
 
-                color: highlighted ? config.PopupHighlight : config.PopupBackground
+                color: highlighted ? config.PopupActiveColor : config.PopupColor
                 radius: config.Radius
             }
 
@@ -81,7 +81,7 @@ Column {
 
         background: Rectangle {
             radius: config.Radius * 1.8
-            color: config.PopupBackground
+            color: config.PopupColor
         }
 
         contentItem: ListView {
@@ -140,17 +140,17 @@ Column {
             height: inputWidth / 1.5 + (border.width * 2)
             width: inputWidth / 1.5 + (border.width * 2)
             radius: height / 2
-            border.width: config.UAPBorderWidth
-            border.color: config.UAPBorderColor
-            color: config.UAPColor
+            border.width: config.UserBorderWidth
+            border.color: config.UserBorderColor
+            color: config.UserColor
             states: [
                 State {
                     name: "pressed"
 
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.UAPBorderColor, 1.2)
-                        color: Qt.darker(config.UAPColor, 1.2)
+                        border.color: Qt.darker(config.UserBorderColor, 1.2)
+                        color: Qt.darker(config.UserColor, 1.2)
                     }
 
                 },
@@ -159,8 +159,8 @@ Column {
 
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.UAPBorderColor, 1.4)
-                        color: Qt.darker(config.UAPColor, 1.4)
+                        border.color: Qt.darker(config.UserBorderColor, 1.4)
+                        color: Qt.darker(config.UserColor, 1.4)
                     }
 
                 },
@@ -169,8 +169,8 @@ Column {
 
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: config.UAPBorderColor
-                        color: config.UAPColor
+                        border.color: config.UserBorderColor
+                        color: config.UserColor
                     }
 
                 }
@@ -249,19 +249,19 @@ Column {
 
             background: Rectangle {
                 radius: config.Radius
-                color: config.PopupBackground
+                color: config.PopupColor
             }
 
             contentItem: Text {
                 id: incorrectText
 
                 renderType: Text.NativeRendering
-                font.family: config.Font
+                font.family: config.FontFamily
                 font.pointSize: config.FontSize
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.PopupHighlight
+                color: config.PopupActiveColor
                 text: "Incorrect username\nor password!"
             }
 

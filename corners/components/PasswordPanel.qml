@@ -6,16 +6,15 @@ TextField {
 
     focus: true
     selectByMouse: true
-    placeholderText: config.PassFieldBgText
-    echoMode: TextInput.Password
+    placeholderText: config.PassPlaceholderText
+    echoMode: config.HidePassword === "true" ? TextInput.Password : TextInput.Normal
     passwordCharacter: "•"
-    passwordMaskDelay: config.PassHideInput == "true" ? 0 : 1000
-    selectionColor: config.FieldText
+    selectionColor: config.InputTextColor
     renderType: Text.NativeRendering
-    font.family: config.Font
+    font.family: config.FontFamily
     font.pointSize: config.FontSize
     font.bold: true
-    color: config.FieldText
+    color: config.InputTextColor
     horizontalAlignment: TextInput.AlignHCenter
     states: [
         State {
@@ -24,8 +23,8 @@ TextField {
 
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.FieldBackground, 1.2)
-                border.width: config.FieldBorderWidth
+                color: Qt.darker(config.InputColor, 1.2)
+                border.width: config.InputBorderWidth
             }
 
         },
@@ -35,7 +34,7 @@ TextField {
 
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.FieldBackground, 1.2)
+                color: Qt.darker(config.InputColor, 1.2)
             }
 
         }
@@ -44,8 +43,8 @@ TextField {
     background: Rectangle {
         id: passFieldBg
 
-        color: config.FieldBackground
-        border.color: config.FieldBorderColor
+        color: config.InputColor
+        border.color: config.InputBorderColor
         border.width: 0
         radius: config.Radius
     }

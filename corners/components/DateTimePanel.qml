@@ -2,7 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 Column {
-    spacing: 0
+    spacing: config.DateTimeSpacing
+
     Component.onCompleted: {
         timeLabel.updateTime();
         dateLabel.updateDate();
@@ -18,9 +19,9 @@ Column {
         anchors.right: parent.right
         opacity: config.DateOpacity
         renderType: Text.NativeRendering
-        font.family: config.Font
+        font.family: config.FontFamily
         font.pointSize: config.DateSize
-        font.bold: config.DateIsBold == "true" ? true : false
+        font.bold: config.DateIsBold === "true"
         color: config.DateColor
     }
 
@@ -34,9 +35,9 @@ Column {
         anchors.right: parent.right
         opacity: config.TimeOpacity
         renderType: Text.NativeRendering
-        font.family: config.Font
+        font.family: config.FontFamily
         font.pointSize: config.TimeSize
-        font.bold: config.TimeIsBold == "true" ? true : false
+        font.bold: config.TimeIsBold == "true"
         color: config.TimeColor
     }
 

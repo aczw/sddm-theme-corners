@@ -44,7 +44,7 @@ Item {
 
                 PropertyChanges {
                     target: powerButtonBg
-                    color: Qt.darker(config.PowerButtonBg, 1.2)
+                    color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
 
             },
@@ -54,7 +54,7 @@ Item {
 
                 PropertyChanges {
                     target: powerButtonBg
-                    color: Qt.darker(config.PowerButtonBg, 1.2)
+                    color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
 
             },
@@ -64,7 +64,7 @@ Item {
 
                 PropertyChanges {
                     target: powerButtonBg
-                    color: Qt.darker(config.PowerButtonBg, 1.2)
+                    color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
 
             }
@@ -73,7 +73,7 @@ Item {
         background: Rectangle {
             id: powerButtonBg
 
-            color: config.PowerButtonBg
+            color: config.PowerButtonColor
             radius: config.Radius
         }
 
@@ -97,7 +97,7 @@ Item {
 
         background: Rectangle {
             radius: config.Radius * 1.8
-            color: config.PopupBackground
+            color: config.PopupColor
         }
 
         contentItem: ListView {
@@ -122,12 +122,12 @@ Item {
 
                         PropertyChanges {
                             target: powerEntryBg
-                            color: Qt.darker(config.PopupHighlight, 1.2)
+                            color: Qt.darker(config.PopupActiveColor, 1.2)
                         }
 
                         PropertyChanges {
                             target: iconOverlay
-                            color: Qt.darker(config.PopupHighlight, 1.2)
+                            color: Qt.darker(config.PopupActiveColor, 1.2)
                         }
 
                         PropertyChanges {
@@ -160,7 +160,7 @@ Item {
 
                         anchors.fill: powerIcon
                         source: powerIcon
-                        color: config.PopupBackground
+                        color: config.PopupColor
                     }
 
                     Text {
@@ -168,11 +168,11 @@ Item {
 
                         anchors.centerIn: parent
                         renderType: Text.NativeRendering
-                        font.family: config.Font
+                        font.family: config.FontFamily
                         font.pointSize: config.FontSize
                         font.bold: true
                         horizontalAlignment: Text.AlignHCenter
-                        color: config.PopupBackground
+                        color: config.PopupColor
                         text: name
                         opacity: 0
                     }
@@ -182,7 +182,7 @@ Item {
                 background: Rectangle {
                     id: powerEntryBg
 
-                    color: config.PopupHighlight
+                    color: config.PopupActiveColor
                     radius: config.Radius
                 }
 
