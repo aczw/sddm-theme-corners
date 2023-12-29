@@ -1,55 +1,38 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+
 import "./components"
 
-Item {
+Rectangle {
     id: root
 
     height: Screen.height
     width: Screen.width
 
     Image {
-        id: background
+        anchors { fill: parent }
 
-        anchors.fill: parent
-        height: parent.height
-        width: parent.width
-        fillMode: Image.PreserveAspectCrop
         source: config.Background
-        asynchronous: false
-        cache: true
-        mipmap: true
+        fillMode: Image.PreserveAspectCrop
         clip: true
     }
 
     Item {
-        id: contentPanel
-
         anchors {
             fill: parent
-            topMargin: config.Padding
-            rightMargin: config.Padding
-            bottomMargin: config.Padding
-            leftMargin: config.Padding
+            margins: config.Padding
         }
 
         DateTimePanel {
-            id: dateTimePanel
-
             anchors {
                 top: parent.top
                 right: parent.right
             }
-
         }
 
         LoginPanel {
-            id: loginPanel
-
-            anchors.fill: parent
+            anchors { fill: parent }
         }
-
     }
-
 }
