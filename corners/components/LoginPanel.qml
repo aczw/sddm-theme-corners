@@ -1,13 +1,13 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Window 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
 
 Item {
-    property var user: userPanel.username
-    property var password: passwordField.text
-    property var session: sessionPanel.session
-    property var inputHeight: Screen.height * config.UIScale * 0.25
-    property var inputWidth: Screen.width * config.UIScale
+    property string user: userPanel.username
+    property string password: passwordField.text
+    property int session: sessionPanel.session
+    property double inputHeight: Screen.height * 0.175 * 0.25 * config.Scale
+    property double inputWidth: Screen.width * 0.175 * config.Scale
 
     Column {
         spacing: 8
@@ -17,14 +17,8 @@ Item {
             left: parent.left
         }
 
-        PowerPanel {
-            id: powerPanel
-        }
-
-        SessionPanel {
-            id: sessionPanel
-        }
-
+        PowerPanel {}
+        SessionPanel { id: sessionPanel }
     }
 
     Column {
@@ -36,16 +30,14 @@ Item {
             right: parent.right
         }
 
-        UserPanel {
-            id: userPanel
-        }
+        UserPanel { id: userPanel }
 
         PasswordPanel {
             id: passwordField
 
             height: inputHeight
             width: parent.width
-            onAccepted: loginButton.clicked()
+            onAccepted: loginButton.clicked();
         }
 
         Button {
@@ -53,12 +45,13 @@ Item {
 
             height: inputHeight
             width: parent.width
-            enabled: user != "" && password != "" ? true : false
+            enabled: user !== "" && password !== ""
             hoverEnabled: true
-            text: "Login!!"
+
             onClicked: {
                 sddm.login(user, password, session);
             }
+            
             states: [
                 State {
                     name: "pressed"
@@ -66,7 +59,7 @@ Item {
 
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(config.LoginButtonBg, 1.4)
+                        color: Qt.darker(config.LoginButtonColor, 1.4)
                         opacity: 1
                     }
 
@@ -74,7 +67,6 @@ Item {
                         target: buttonText
                         opacity: 1
                     }
-
                 },
                 State {
                     name: "hovered"
@@ -82,7 +74,7 @@ Item {
 
                     PropertyChanges {
                         target: buttonBackground
-                        color: Qt.darker(config.LoginButtonBg, 1.2)
+                        color: Qt.darker(config.LoginButtonColor, 1.2)
                         opacity: 1
                     }
 
@@ -90,7 +82,6 @@ Item {
                         target: buttonText
                         opacity: 1
                     }
-
                 },
                 State {
                     name: "enabled"
@@ -105,7 +96,6 @@ Item {
                         target: buttonText
                         opacity: 1
                     }
-
                 }
             ]
 
@@ -113,7 +103,7 @@ Item {
                 id: loginAnim
 
                 radius: parent.width / 2
-                anchors.centerIn: loginButton
+                anchors {centerIn: loginButton }
                 color: "black"
                 opacity: 1
 
@@ -127,27 +117,30 @@ Item {
                     duration: 1000
                     easing.type: Easing.InExpo
                 }
-
             }
 
             contentItem: Text {
                 id: buttonText
 
-                renderType: Text.NativeRendering
-                font.family: config.Font
-                font.pointSize: config.FontSize
-                font.bold: true
+                font {
+                    family: config.FontFamily
+                    pointSize: config.FontSize
+                    bold: true
+                }
+
+                text: config.LoginButtonText
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.LoginButtonTextColor
+                
                 opacity: 0.5
-                text: config.LoginButtonText
+                renderType: Text.NativeRendering
+                color: config.LoginButtonTextColor
             }
 
             background: Rectangle {
                 id: buttonBackground
 
-                color: config.LoginButtonBg
+                color: config.LoginButtonColor
                 opacity: 0.5
                 radius: config.Radius
             }
@@ -157,11 +150,8 @@ Item {
                     properties: "color, opacity"
                     duration: 150
                 }
-
             }
-
         }
-
     }
 
     Connections {
@@ -176,5 +166,4 @@ Item {
 
         target: sddm
     }
-
 }

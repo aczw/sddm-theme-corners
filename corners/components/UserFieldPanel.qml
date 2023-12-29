@@ -1,6 +1,6 @@
 import QtGraphicalEffects 1.12
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 TextField {
     id: usernameField
@@ -8,16 +8,21 @@ TextField {
     height: inputHeight
     width: inputWidth
     selectByMouse: true
-    echoMode: TextInput.Normal
-    selectionColor: config.FieldText
-    renderType: Text.NativeRendering
-    font.family: config.Font
-    font.pointSize: config.FontSize
-    font.bold: true
-    color: config.FieldText
-    horizontalAlignment: Text.AlignHCenter
-    placeholderText: config.UserFieldBgText
+
+    font {
+        family: config.FontFamily
+        pointSize: config.FontSize
+        bold: true
+    }
+
     text: userModel.lastUser
+    placeholderText: config.UserPlaceholderText
+    horizontalAlignment: Text.AlignHCenter
+
+    color: config.InputTextColor
+    selectionColor: config.InputTextColor
+    renderType: Text.NativeRendering
+ 
     states: [
         State {
             name: "focused"
@@ -25,10 +30,9 @@ TextField {
 
             PropertyChanges {
                 target: userFieldBackground
-                color: Qt.darker(config.FieldBackground, 1.2)
-                border.width: config.FieldBorderWidth
+                color: Qt.darker(config.InputColor, 1.2)
+                border.width: config.InputBorderWidth
             }
-
         },
         State {
             name: "hovered"
@@ -36,17 +40,16 @@ TextField {
 
             PropertyChanges {
                 target: userFieldBackground
-                color: Qt.darker(config.FieldBackground, 1.2)
+                color: Qt.darker(config.InputColor, 1.2)
             }
-
         }
     ]
 
     background: Rectangle {
         id: userFieldBackground
 
-        color: config.FieldBackground
-        border.color: config.FieldBorderColor
+        color: config.InputColor
+        border.color: config.InputBorderColor
         border.width: 0
         radius: config.Radius
     }
@@ -56,7 +59,5 @@ TextField {
             properties: "color, border.width"
             duration: 150
         }
-
     }
-
 }

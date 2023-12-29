@@ -1,13 +1,18 @@
 import QtGraphicalEffects 1.12
-import QtQml.Models 2.12
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQml.Models 2.15
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 Column {
     property var username: usernameField.text
 
     spacing: 30
-    Component.onCompleted: userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon
+
+    Component.onCompleted: {
+        if (userPicture.enabled) {
+            userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon;
+        }
+    }
 
     DelegateModel {
         id: userWrapper
@@ -17,9 +22,13 @@ Column {
         delegate: ItemDelegate {
             id: userEntry
 
+            enabled: config.UserPictureEnabled === "true"
+            visible: config.UserPictureEnabled === "true"
+
             height: inputHeight
             width: parent.width
-            highlighted: userList.currentIndex == index
+            highlighted: userList.currentIndex === index
+
             states: [
                 State {
                     name: "hovered"
@@ -27,14 +36,14 @@ Column {
 
                     PropertyChanges {
                         target: userEntryBg
-                        color: highlighted ? Qt.darker(config.PopupHighlight, 1.2) : Qt.darker(config.PopupBackground, 1.2)
+                        color: highlighted ? Qt.darker(config.PopupActiveColor, 1.2) : Qt.darker(config.PopupColor, 1.2)
                     }
-
                 }
             ]
 
             MouseArea {
-                anchors.fill: parent
+                anchors { fill: parent }
+
                 onClicked: {
                     userList.currentIndex = index;
                     usernameField.text = userWrapper.items.get(index).model.name;
@@ -44,20 +53,23 @@ Column {
             }
 
             contentItem: Text {
+                font {
+                    family: config.FontFamily
+                    pointSize: config.FontSize
+                    bold: true
+                }
+
+                text: name
                 renderType: Text.NativeRendering
-                font.family: config.Font
-                font.pointSize: config.FontSize
-                font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: highlighted ? config.PopupHighlightText : config.PopupHighlight
-                text: name
+                color: highlighted ? config.PopupActiveTextColor : config.PopupActiveColor
             }
 
             background: Rectangle {
                 id: userEntryBg
 
-                color: highlighted ? config.PopupHighlight : config.PopupBackground
+                color: highlighted ? config.PopupActiveColor : config.PopupColor
                 radius: config.Radius
             }
 
@@ -66,22 +78,21 @@ Column {
                     property: "color"
                     duration: 150
                 }
-
             }
-
         }
-
     }
 
     Popup {
         id: userPopup
+        
+        enabled: config.UserPictureEnabled === "true"
 
         width: inputWidth
         padding: 15
 
         background: Rectangle {
             radius: config.Radius * 1.8
-            color: config.PopupBackground
+            color: config.PopupColor
         }
 
         contentItem: ListView {
@@ -111,9 +122,7 @@ Column {
                     duration: 500
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
 
         exit: Transition {
@@ -124,9 +133,7 @@ Column {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
-
     }
 
     Item {
@@ -136,43 +143,43 @@ Column {
         Rectangle {
             id: pictureBorder
 
+            enabled: config.UserPictureEnabled === "true"
+            visible: config.UserPictureEnabled === "true"
+
             anchors.centerIn: userPicture
             height: inputWidth / 1.5 + (border.width * 2)
             width: inputWidth / 1.5 + (border.width * 2)
             radius: height / 2
-            border.width: config.UAPBorderWidth
-            border.color: config.UAPBorderColor
-            color: config.UAPColor
+            border.width: config.UserBorderWidth
+            border.color: config.UserBorderColor
+            color: config.UserColor
             states: [
                 State {
                     name: "pressed"
 
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.UAPBorderColor, 1.2)
-                        color: Qt.darker(config.UAPColor, 1.2)
+                        border.color: Qt.darker(config.UserBorderColor, 1.2)
+                        color: Qt.darker(config.UserColor, 1.2)
                     }
-
                 },
                 State {
                     name: "hovered"
 
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: Qt.darker(config.UAPBorderColor, 1.4)
-                        color: Qt.darker(config.UAPColor, 1.4)
+                        border.color: Qt.darker(config.UserBorderColor, 1.4)
+                        color: Qt.darker(config.UserColor, 1.4)
                     }
-
                 },
                 State {
                     name: "unhovered"
 
                     PropertyChanges {
                         target: pictureBorder
-                        border.color: config.UAPBorderColor
-                        color: config.UAPColor
+                        border.color: config.UserBorderColor
+                        color: config.UserColor
                     }
-
                 }
             ]
 
@@ -181,13 +188,15 @@ Column {
 
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: userPopup.open()
+                onClicked: userPopup.open();
+
                 onHoveredChanged: {
                     if (containsMouse)
                         pictureBorder.state = "hovered";
                     else
                         pictureBorder.state = "unhovered";
                 }
+
                 onPressedChanged: {
                     if (containsPress)
                         pictureBorder.state = "pressed";
@@ -203,13 +212,14 @@ Column {
                     properties: "border.color, color"
                     duration: 150
                 }
-
             }
-
         }
 
         Image {
             id: userPicture
+
+            enabled: config.UserPictureEnabled === "true"
+            visible: config.UserPictureEnabled === "true"
 
             source: ""
             height: inputWidth / 1.5
@@ -229,7 +239,6 @@ Column {
             layer.effect: OpacityMask {
                 maskSource: mask
             }
-
         }
 
         Popup {
@@ -249,19 +258,22 @@ Column {
 
             background: Rectangle {
                 radius: config.Radius
-                color: config.PopupBackground
+                color: config.PopupColor
             }
 
             contentItem: Text {
                 id: incorrectText
 
+                font {
+                    family: config.FontFamily
+                    pointSize: config.FontSize
+                    bold: true
+                }
+
                 renderType: Text.NativeRendering
-                font.family: config.Font
-                font.pointSize: config.FontSize
-                font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.PopupHighlight
+                color: config.PopupActiveColor
                 text: "Incorrect username\nor password!"
             }
 
@@ -282,9 +294,7 @@ Column {
                         duration: 500
                         easing.type: Easing.OutElastic
                     }
-
                 }
-
             }
 
             exit: Transition {
@@ -295,11 +305,8 @@ Column {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
-
     }
 
     UserFieldPanel {
@@ -310,8 +317,7 @@ Column {
     }
 
     Connections {
-        function onLoginSucceeded() {
-        }
+        function onLoginSucceeded() {}
 
         function onLoginFailed() {
             incorrectPopup.open();
@@ -319,5 +325,4 @@ Column {
 
         target: sddm
     }
-
 }

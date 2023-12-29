@@ -1,22 +1,27 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 TextField {
     id: passwordField
 
     focus: true
     selectByMouse: true
-    placeholderText: config.PassFieldBgText
-    echoMode: TextInput.Password
+    echoMode: config.HidePassword === "true" ? TextInput.Password : TextInput.Normal
     passwordCharacter: "•"
-    passwordMaskDelay: config.PassHideInput == "true" ? 0 : 1000
-    selectionColor: config.FieldText
-    renderType: Text.NativeRendering
-    font.family: config.Font
-    font.pointSize: config.FontSize
-    font.bold: true
-    color: config.FieldText
+    
+    font {
+        family: config.FontFamily
+        pointSize: config.FontSize
+        bold: true
+    }
+
+    placeholderText: config.PassPlaceholderText
     horizontalAlignment: TextInput.AlignHCenter
+
+    color: config.InputTextColor
+    selectionColor: config.InputTextColor
+    renderType: Text.NativeRendering
+
     states: [
         State {
             name: "focused"
@@ -24,10 +29,9 @@ TextField {
 
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.FieldBackground, 1.2)
-                border.width: config.FieldBorderWidth
+                color: Qt.darker(config.InputColor, 1.2)
+                border.width: config.InputBorderWidth
             }
-
         },
         State {
             name: "hovered"
@@ -35,18 +39,20 @@ TextField {
 
             PropertyChanges {
                 target: passFieldBg
-                color: Qt.darker(config.FieldBackground, 1.2)
+                color: Qt.darker(config.InputColor, 1.2)
             }
-
         }
     ]
 
     background: Rectangle {
         id: passFieldBg
 
-        color: config.FieldBackground
-        border.color: config.FieldBorderColor
-        border.width: 0
+        border {
+            color: config.InputBorderColor
+            width: 0
+        }
+
+        color: config.InputColor
         radius: config.Radius
     }
 
@@ -55,7 +61,5 @@ TextField {
             properties: "color, border.width"
             duration: 150
         }
-
     }
-
 }

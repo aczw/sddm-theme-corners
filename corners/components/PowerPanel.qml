@@ -1,6 +1,6 @@
-import QtGraphicalEffects 1.12
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.15
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 Item {
     implicitHeight: powerButton.height
@@ -20,23 +20,27 @@ Item {
         ListElement {
             name: "Shut\nDown"
         }
-
     }
 
     Button {
         id: powerButton
 
+        icon {
+            source: Qt.resolvedUrl("../icons/power.svg")
+            height: height
+            width: width
+            color: config.PowerIconColor
+        }
+
         height: inputHeight
         width: inputHeight
         hoverEnabled: true
-        icon.source: Qt.resolvedUrl("../icons/power.svg")
-        icon.height: height
-        icon.width: width
-        icon.color: config.PowerIconColor
+
         onClicked: {
             powerPopup.visible ? powerPopup.close() : powerPopup.open();
             powerButton.state = "pressed";
         }
+
         states: [
             State {
                 name: "pressed"
@@ -44,9 +48,8 @@ Item {
 
                 PropertyChanges {
                     target: powerButtonBg
-                    color: Qt.darker(config.PowerButtonBg, 1.2)
+                    color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
-
             },
             State {
                 name: "hovered"
@@ -54,9 +57,8 @@ Item {
 
                 PropertyChanges {
                     target: powerButtonBg
-                    color: Qt.darker(config.PowerButtonBg, 1.2)
+                    color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
-
             },
             State {
                 name: "selection"
@@ -64,16 +66,15 @@ Item {
 
                 PropertyChanges {
                     target: powerButtonBg
-                    color: Qt.darker(config.PowerButtonBg, 1.2)
+                    color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
-
             }
         ]
 
         background: Rectangle {
             id: powerButtonBg
 
-            color: config.PowerButtonBg
+            color: config.PowerButtonColor
             radius: config.Radius
         }
 
@@ -82,9 +83,7 @@ Item {
                 properties: "color"
                 duration: 150
             }
-
         }
-
     }
 
     Popup {
@@ -97,7 +96,7 @@ Item {
 
         background: Rectangle {
             radius: config.Radius * 1.8
-            color: config.PopupBackground
+            color: config.PopupColor
         }
 
         contentItem: ListView {
@@ -115,6 +114,7 @@ Item {
                 height: inputHeight * 2.2
                 width: inputHeight * 2.2
                 display: AbstractButton.TextUnderIcon
+
                 states: [
                     State {
                         name: "hovered"
@@ -122,19 +122,18 @@ Item {
 
                         PropertyChanges {
                             target: powerEntryBg
-                            color: Qt.darker(config.PopupHighlight, 1.2)
+                            color: Qt.darker(config.PopupActiveColor, 1.2)
                         }
 
                         PropertyChanges {
                             target: iconOverlay
-                            color: Qt.darker(config.PopupHighlight, 1.2)
+                            color: Qt.darker(config.PopupActiveColor, 1.2)
                         }
 
                         PropertyChanges {
                             target: powerText
                             opacity: 1
                         }
-
                     }
                 ]
 
@@ -142,7 +141,14 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         powerPopup.close();
-                        index == 0 ? sddm.suspend() : (index == 1 ? sddm.reboot() : sddm.powerOff());
+
+                        if (index === 0) {
+                            sddm.suspend();
+                        } else if (index === 1) {
+                            sddm.reboot();
+                        } else if (index === 2) {
+                            sddm.powerOff();
+                        }
                     }
                 }
 
@@ -160,29 +166,31 @@ Item {
 
                         anchors.fill: powerIcon
                         source: powerIcon
-                        color: config.PopupBackground
+                        color: config.PopupColor
                     }
 
                     Text {
                         id: powerText
 
+                        font {
+                            family: config.FontFamily
+                            pointSize: config.FontSize
+                            bold: true
+                        }
+
                         anchors.centerIn: parent
                         renderType: Text.NativeRendering
-                        font.family: config.Font
-                        font.pointSize: config.FontSize
-                        font.bold: true
                         horizontalAlignment: Text.AlignHCenter
-                        color: config.PopupBackground
+                        color: config.PopupColor
                         text: name
                         opacity: 0
                     }
-
                 }
 
                 background: Rectangle {
                     id: powerEntryBg
 
-                    color: config.PopupHighlight
+                    color: config.PopupActiveColor
                     radius: config.Radius
                 }
 
@@ -191,11 +199,8 @@ Item {
                         properties: "color, opacity"
                         duration: 150
                     }
-
                 }
-
             }
-
         }
 
         enter: Transition {
@@ -215,9 +220,7 @@ Item {
                     duration: 500
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
 
         exit: Transition {
@@ -228,9 +231,6 @@ Item {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
-
     }
-
 }
