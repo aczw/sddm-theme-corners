@@ -140,11 +140,11 @@ Column {
         width: inputWidth
         implicitHeight: pictureBorder.height
 
-        enabled: config.UserPictureEnabled === "true"
-        visible: config.UserPictureEnabled === "true"
-
         Rectangle {
             id: pictureBorder
+
+            enabled: config.UserPictureEnabled === "true"
+            visible: config.UserPictureEnabled === "true"
 
             anchors.centerIn: userPicture
             height: inputWidth / 1.5 + (border.width * 2)
@@ -217,6 +217,9 @@ Column {
 
         Image {
             id: userPicture
+
+            enabled: config.UserPictureEnabled === "true"
+            visible: config.UserPictureEnabled === "true"
 
             source: ""
             height: inputWidth / 1.5
@@ -317,9 +320,7 @@ Column {
         function onLoginSucceeded() {}
 
         function onLoginFailed() {
-            if (incorrectPopup.enabled) {
-                incorrectPopup.open();
-            }
+            incorrectPopup.open();
         }
 
         target: sddm
