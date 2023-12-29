@@ -13,6 +13,7 @@ This file explains what each option does and what parameters are valid. In gener
 
 ## User picture
 
+- `UserPictureEnabled`: boolean. By default the user picture is shown. Set to false if you don't have/want a user picture, or you don't use the user selection functionality.
 - `UserBorderWidth`: number. Width of the border around your picture. Set to 0 to remove.
 - `UserBorderColor`: color. Border color around your picture. Useless if border width is 0.
 - `UserColor`: color. Background color of the default, blank avatar. Only visible if you don't have your own picture.

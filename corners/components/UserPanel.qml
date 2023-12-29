@@ -9,7 +9,9 @@ Column {
     spacing: 30
 
     Component.onCompleted: {
-        userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon;
+        if (userPicture.enabled) {
+            userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon;
+        }
     }
 
     DelegateModel {
@@ -19,6 +21,9 @@ Column {
 
         delegate: ItemDelegate {
             id: userEntry
+
+            enabled: config.UserPictureEnabled === "true"
+            visible: config.UserPictureEnabled === "true"
 
             height: inputHeight
             width: parent.width
@@ -79,6 +84,8 @@ Column {
 
     Popup {
         id: userPopup
+        
+        enabled: config.UserPictureEnabled === "true"
 
         width: inputWidth
         padding: 15
@@ -132,6 +139,9 @@ Column {
     Item {
         width: inputWidth
         implicitHeight: pictureBorder.height
+
+        enabled: config.UserPictureEnabled === "true"
+        visible: config.UserPictureEnabled === "true"
 
         Rectangle {
             id: pictureBorder
@@ -307,7 +317,9 @@ Column {
         function onLoginSucceeded() {}
 
         function onLoginFailed() {
-            incorrectPopup.open();
+            if (incorrectPopup.enabled) {
+                incorrectPopup.open();
+            }
         }
 
         target: sddm
