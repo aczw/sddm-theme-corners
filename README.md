@@ -2,8 +2,10 @@
 
 A very customizable [SDDM](https://github.com/sddm/sddm) theme that places controls on your screen corners.
 
-![glacier preview](preview/glacier.png)
-![hanako preview](preview/hanako.png)
+<img src="docs/glacier.png" width="45%"></img>
+<img src="docs/hanako.png" width="45%"></img>
+<img src="docs/loud.png" width="45%"></img>
+<img src="docs/sky.png" width="45%"></img>
 
 I couldn't really find a preexisting theme that I liked, so I made my own. Layout inspired by [sddm-chinese-painting-theme](https://github.com/fralonra/sddm-chinese-painting-theme).
 
