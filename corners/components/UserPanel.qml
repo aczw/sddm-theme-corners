@@ -7,7 +7,10 @@ Column {
     property var username: usernameField.text
 
     spacing: 30
-    Component.onCompleted: userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon
+
+    Component.onCompleted: {
+        userPicture.source = userWrapper.items.get(userList.currentIndex).model.icon;
+    }
 
     DelegateModel {
         id: userWrapper
@@ -19,7 +22,8 @@ Column {
 
             height: inputHeight
             width: parent.width
-            highlighted: userList.currentIndex == index
+            highlighted: userList.currentIndex === index
+
             states: [
                 State {
                     name: "hovered"
@@ -29,12 +33,12 @@ Column {
                         target: userEntryBg
                         color: highlighted ? Qt.darker(config.PopupActiveColor, 1.2) : Qt.darker(config.PopupColor, 1.2)
                     }
-
                 }
             ]
 
             MouseArea {
-                anchors.fill: parent
+                anchors { fill: parent }
+
                 onClicked: {
                     userList.currentIndex = index;
                     usernameField.text = userWrapper.items.get(index).model.name;
@@ -44,14 +48,17 @@ Column {
             }
 
             contentItem: Text {
+                font {
+                    family: config.FontFamily
+                    pointSize: config.FontSize
+                    bold: true
+                }
+
+                text: name
                 renderType: Text.NativeRendering
-                font.family: config.FontFamily
-                font.pointSize: config.FontSize
-                font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: highlighted ? config.PopupActiveTextColor : config.PopupActiveColor
-                text: name
             }
 
             background: Rectangle {
@@ -66,11 +73,8 @@ Column {
                     property: "color"
                     duration: 150
                 }
-
             }
-
         }
-
     }
 
     Popup {
@@ -111,9 +115,7 @@ Column {
                     duration: 500
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
 
         exit: Transition {
@@ -124,9 +126,7 @@ Column {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
-
     }
 
     Item {
@@ -152,7 +152,6 @@ Column {
                         border.color: Qt.darker(config.UserBorderColor, 1.2)
                         color: Qt.darker(config.UserColor, 1.2)
                     }
-
                 },
                 State {
                     name: "hovered"
@@ -162,7 +161,6 @@ Column {
                         border.color: Qt.darker(config.UserBorderColor, 1.4)
                         color: Qt.darker(config.UserColor, 1.4)
                     }
-
                 },
                 State {
                     name: "unhovered"
@@ -172,7 +170,6 @@ Column {
                         border.color: config.UserBorderColor
                         color: config.UserColor
                     }
-
                 }
             ]
 
@@ -181,13 +178,15 @@ Column {
 
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: userPopup.open()
+                onClicked: userPopup.open();
+
                 onHoveredChanged: {
                     if (containsMouse)
                         pictureBorder.state = "hovered";
                     else
                         pictureBorder.state = "unhovered";
                 }
+
                 onPressedChanged: {
                     if (containsPress)
                         pictureBorder.state = "pressed";
@@ -203,9 +202,7 @@ Column {
                     properties: "border.color, color"
                     duration: 150
                 }
-
             }
-
         }
 
         Image {
@@ -229,7 +226,6 @@ Column {
             layer.effect: OpacityMask {
                 maskSource: mask
             }
-
         }
 
         Popup {
@@ -255,10 +251,13 @@ Column {
             contentItem: Text {
                 id: incorrectText
 
+                font {
+                    family: config.FontFamily
+                    pointSize: config.FontSize
+                    bold: true
+                }
+
                 renderType: Text.NativeRendering
-                font.family: config.FontFamily
-                font.pointSize: config.FontSize
-                font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: config.PopupActiveColor
@@ -282,9 +281,7 @@ Column {
                         duration: 500
                         easing.type: Easing.OutElastic
                     }
-
                 }
-
             }
 
             exit: Transition {
@@ -295,11 +292,8 @@ Column {
                     duration: 300
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
-
     }
 
     UserFieldPanel {
@@ -310,8 +304,7 @@ Column {
     }
 
     Connections {
-        function onLoginSucceeded() {
-        }
+        function onLoginSucceeded() {}
 
         function onLoginFailed() {
             incorrectPopup.open();
@@ -319,5 +312,4 @@ Column {
 
         target: sddm
     }
-
 }

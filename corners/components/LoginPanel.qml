@@ -37,7 +37,7 @@ Item {
 
             height: inputHeight
             width: parent.width
-            onAccepted: loginButton.clicked()
+            onAccepted: loginButton.clicked();
         }
 
         Button {
@@ -45,12 +45,13 @@ Item {
 
             height: inputHeight
             width: parent.width
-            enabled: user != "" && password != "" ? true : false
+            enabled: user !== "" && password !== ""
             hoverEnabled: true
-            text: "Login!!"
+
             onClicked: {
                 sddm.login(user, password, session);
             }
+            
             states: [
                 State {
                     name: "pressed"
@@ -66,7 +67,6 @@ Item {
                         target: buttonText
                         opacity: 1
                     }
-
                 },
                 State {
                     name: "hovered"
@@ -82,7 +82,6 @@ Item {
                         target: buttonText
                         opacity: 1
                     }
-
                 },
                 State {
                     name: "enabled"
@@ -97,7 +96,6 @@ Item {
                         target: buttonText
                         opacity: 1
                     }
-
                 }
             ]
 
@@ -105,7 +103,7 @@ Item {
                 id: loginAnim
 
                 radius: parent.width / 2
-                anchors.centerIn: loginButton
+                anchors {centerIn: loginButton }
                 color: "black"
                 opacity: 1
 
@@ -119,21 +117,24 @@ Item {
                     duration: 1000
                     easing.type: Easing.InExpo
                 }
-
             }
 
             contentItem: Text {
                 id: buttonText
 
-                renderType: Text.NativeRendering
-                font.family: config.FontFamily
-                font.pointSize: config.FontSize
-                font.bold: true
+                font {
+                    family: config.FontFamily
+                    pointSize: config.FontSize
+                    bold: true
+                }
+
+                text: config.LoginButtonText
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: config.LoginButtonTextColor
+                
                 opacity: 0.5
-                text: config.LoginButtonText
+                renderType: Text.NativeRendering
+                color: config.LoginButtonTextColor
             }
 
             background: Rectangle {
@@ -149,11 +150,8 @@ Item {
                     properties: "color, opacity"
                     duration: 150
                 }
-
             }
-
         }
-
     }
 
     Connections {
@@ -168,5 +166,4 @@ Item {
 
         target: sddm
     }
-
 }

@@ -16,12 +16,16 @@ Column {
             text = new Date().toLocaleDateString(Qt.locale(), config.DateFormat);
         }
 
-        anchors.right: parent.right
+        font {
+            family: config.FontFamily
+            pointSize: config.DateSize
+            bold: config.DateIsBold === "true"
+        }
+
+        anchors { right: parent.right }
+
         opacity: config.DateOpacity
         renderType: Text.NativeRendering
-        font.family: config.FontFamily
-        font.pointSize: config.DateSize
-        font.bold: config.DateIsBold === "true"
         color: config.DateColor
     }
 
@@ -32,12 +36,16 @@ Column {
             text = new Date().toLocaleTimeString(Qt.locale(), config.TimeFormat);
         }
 
-        anchors.right: parent.right
+        font {
+            family: config.FontFamily
+            pointSize: config.TimeSize
+            bold: config.TimeIsBold === "true"
+        }
+
+        anchors { right: parent.right }
+
         opacity: config.TimeOpacity
         renderType: Text.NativeRendering
-        font.family: config.FontFamily
-        font.pointSize: config.TimeSize
-        font.bold: config.TimeIsBold == "true"
         color: config.TimeColor
     }
 
@@ -45,10 +53,10 @@ Column {
         interval: 1000
         repeat: true
         running: true
+        
         onTriggered: {
             timeLabel.updateTime();
             dateLabel.updateDate();
         }
     }
-
 }

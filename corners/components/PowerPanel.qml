@@ -20,23 +20,27 @@ Item {
         ListElement {
             name: "Shut\nDown"
         }
-
     }
 
     Button {
         id: powerButton
 
+        icon {
+            source: Qt.resolvedUrl("../icons/power.svg")
+            height: height
+            width: width
+            color: config.PowerIconColor
+        }
+
         height: inputHeight
         width: inputHeight
         hoverEnabled: true
-        icon.source: Qt.resolvedUrl("../icons/power.svg")
-        icon.height: height
-        icon.width: width
-        icon.color: config.PowerIconColor
+
         onClicked: {
             powerPopup.visible ? powerPopup.close() : powerPopup.open();
             powerButton.state = "pressed";
         }
+
         states: [
             State {
                 name: "pressed"
@@ -46,7 +50,6 @@ Item {
                     target: powerButtonBg
                     color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
-
             },
             State {
                 name: "hovered"
@@ -56,7 +59,6 @@ Item {
                     target: powerButtonBg
                     color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
-
             },
             State {
                 name: "selection"
@@ -66,7 +68,6 @@ Item {
                     target: powerButtonBg
                     color: Qt.darker(config.PowerButtonColor, 1.2)
                 }
-
             }
         ]
 
@@ -82,9 +83,7 @@ Item {
                 properties: "color"
                 duration: 150
             }
-
         }
-
     }
 
     Popup {
@@ -115,6 +114,7 @@ Item {
                 height: inputHeight * 2.2
                 width: inputHeight * 2.2
                 display: AbstractButton.TextUnderIcon
+
                 states: [
                     State {
                         name: "hovered"
@@ -134,7 +134,6 @@ Item {
                             target: powerText
                             opacity: 1
                         }
-
                     }
                 ]
 
@@ -142,7 +141,14 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         powerPopup.close();
-                        index == 0 ? sddm.suspend() : (index == 1 ? sddm.reboot() : sddm.powerOff());
+
+                        if (index === 0) {
+                            sddm.suspend();
+                        } else if (index === 1) {
+                            sddm.reboot();
+                        } else if (index === 2) {
+                            sddm.powerOff();
+                        }
                     }
                 }
 
@@ -166,17 +172,19 @@ Item {
                     Text {
                         id: powerText
 
+                        font {
+                            family: config.FontFamily
+                            pointSize: config.FontSize
+                            bold: true
+                        }
+
                         anchors.centerIn: parent
                         renderType: Text.NativeRendering
-                        font.family: config.FontFamily
-                        font.pointSize: config.FontSize
-                        font.bold: true
                         horizontalAlignment: Text.AlignHCenter
                         color: config.PopupColor
                         text: name
                         opacity: 0
                     }
-
                 }
 
                 background: Rectangle {
@@ -191,11 +199,8 @@ Item {
                         properties: "color, opacity"
                         duration: 150
                     }
-
                 }
-
             }
-
         }
 
         enter: Transition {
@@ -215,9 +220,7 @@ Item {
                     duration: 500
                     easing.type: Easing.OutExpo
                 }
-
             }
-
         }
 
         exit: Transition {
@@ -228,9 +231,6 @@ Item {
                 duration: 300
                 easing.type: Easing.OutExpo
             }
-
         }
-
     }
-
 }

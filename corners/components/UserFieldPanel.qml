@@ -8,16 +8,21 @@ TextField {
     height: inputHeight
     width: inputWidth
     selectByMouse: true
-    echoMode: TextInput.Normal
+
+    font {
+        family: config.FontFamily
+        pointSize: config.FontSize
+        bold: true
+    }
+
+    text: userModel.lastUser
+    placeholderText: config.UserPlaceholderText
+    horizontalAlignment: Text.AlignHCenter
+
+    color: config.InputTextColor
     selectionColor: config.InputTextColor
     renderType: Text.NativeRendering
-    font.family: config.FontFamily
-    font.pointSize: config.FontSize
-    font.bold: true
-    color: config.InputTextColor
-    horizontalAlignment: Text.AlignHCenter
-    placeholderText: config.UserPlaceholderText
-    text: userModel.lastUser
+ 
     states: [
         State {
             name: "focused"
@@ -28,7 +33,6 @@ TextField {
                 color: Qt.darker(config.InputColor, 1.2)
                 border.width: config.InputBorderWidth
             }
-
         },
         State {
             name: "hovered"
@@ -38,7 +42,6 @@ TextField {
                 target: userFieldBackground
                 color: Qt.darker(config.InputColor, 1.2)
             }
-
         }
     ]
 
@@ -56,7 +59,5 @@ TextField {
             properties: "color, border.width"
             duration: 150
         }
-
     }
-
 }

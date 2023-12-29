@@ -6,16 +6,22 @@ TextField {
 
     focus: true
     selectByMouse: true
-    placeholderText: config.PassPlaceholderText
     echoMode: config.HidePassword === "true" ? TextInput.Password : TextInput.Normal
     passwordCharacter: "•"
+    
+    font {
+        family: config.FontFamily
+        pointSize: config.FontSize
+        bold: true
+    }
+
+    placeholderText: config.PassPlaceholderText
+    horizontalAlignment: TextInput.AlignHCenter
+
+    color: config.InputTextColor
     selectionColor: config.InputTextColor
     renderType: Text.NativeRendering
-    font.family: config.FontFamily
-    font.pointSize: config.FontSize
-    font.bold: true
-    color: config.InputTextColor
-    horizontalAlignment: TextInput.AlignHCenter
+
     states: [
         State {
             name: "focused"
@@ -26,7 +32,6 @@ TextField {
                 color: Qt.darker(config.InputColor, 1.2)
                 border.width: config.InputBorderWidth
             }
-
         },
         State {
             name: "hovered"
@@ -36,16 +41,18 @@ TextField {
                 target: passFieldBg
                 color: Qt.darker(config.InputColor, 1.2)
             }
-
         }
     ]
 
     background: Rectangle {
         id: passFieldBg
 
+        border {
+            color: config.InputBorderColor
+            width: 0
+        }
+
         color: config.InputColor
-        border.color: config.InputBorderColor
-        border.width: 0
         radius: config.Radius
     }
 
@@ -54,7 +61,5 @@ TextField {
             properties: "color, border.width"
             duration: 150
         }
-
     }
-
 }
