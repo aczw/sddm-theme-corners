@@ -1,4 +1,4 @@
-import QtGraphicalEffects 1.12
+import Qt5Compat.GraphicalEffects
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
@@ -22,7 +22,7 @@ TextField {
     color: config.InputTextColor
     selectionColor: config.InputTextColor
     renderType: Text.NativeRendering
- 
+
     states: [
         State {
             name: "focused"

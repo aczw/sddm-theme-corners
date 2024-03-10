@@ -1,0 +1,6 @@
+[SddmGreeterTheme]
+Name=Corners
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=corners
+QtVersion=6
