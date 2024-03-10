@@ -1,4 +1,4 @@
-import QtGraphicalEffects 1.12
+import Qt5Compat.GraphicalEffects
 import QtQml.Models 2.15
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -84,7 +84,7 @@ Column {
 
     Popup {
         id: userPopup
-        
+
         enabled: config.UserPictureEnabled === "true"
 
         width: inputWidth
