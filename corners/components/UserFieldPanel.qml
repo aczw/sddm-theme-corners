@@ -17,6 +17,7 @@ TextField {
 
     text: userModel.lastUser
     placeholderText: config.UserPlaceholderText
+    placeholderTextColor: config.InputPlaceholderTextColor
     horizontalAlignment: Text.AlignHCenter
 
     color: config.InputTextColor

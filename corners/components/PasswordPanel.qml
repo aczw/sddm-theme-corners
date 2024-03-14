@@ -16,6 +16,7 @@ TextField {
     }
 
     placeholderText: config.PassPlaceholderText
+    placeholderTextColor: config.InputPlaceholderTextColor
     horizontalAlignment: TextInput.AlignHCenter
 
     color: config.InputTextColor
